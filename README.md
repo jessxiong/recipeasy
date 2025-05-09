@@ -1,5 +1,6 @@
 # recipEASY
 
+## User Stories 
 | Priority | User  |Description |Technical Implementation
 |--|--| --|--|
 | P0 | As a user |I want to be able to view a database of recipes without having to log in.  | Get all of the recipe data from the database and render them on the homepage.|
