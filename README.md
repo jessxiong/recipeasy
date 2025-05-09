@@ -1,4 +1,19 @@
 # recipEASY
+By: Jocelyn Margarones, Alexia Chan, Renee Singh, Jessica Xiong
+
+## Project Description
+### Who is our target audience?
+Our project is targeted towards anyone who relies on recipes to cook—whether they are cooking enthusiasts, individuals trying to cut back on dining out, or busy people who often forget what ingredients they have on hand. We set out to build an application that helps users keep track of the items in their pantry and discover recipes they can make with those ingredients. Sometimes, deciding what to eat can be time-consuming and stressful, particularly for students or working professionals with busy schedules. Our app simplifies this decision-making process, making it easier to maintain consistent and healthy eating habits.
+
+We also aimed to foster a sense of community by allowing users to share and explore recipes posted by others. This feature is especially beneficial for college students or young adults living on their own for the first time, who may be new to cooking. By browsing user-submitted recipes, individuals can find inspiration and connect with others who share similar food preferences or dietary needs.
+
+### Why does our audience want to use our application?
+Our audience wants to use our application because it simplifies meal planning and makes cooking at home more convenient. By allowing users to input the ingredients they already have, the app helps them identify meals they can prepare without needing to buy additional items. It also introduces them to new recipes without the hassle of searching manually. This not only saves time and money but also reduces food waste by helping users keep track of what’s in their kitchen before it expires. Lastly, the app supports a healthier lifestyle by making it easier to cook at home instead of relying on takeout or processed foods.
+
+### Why do we as developers want to build this application?
+As young adults and busy students, we understand the struggles that come with cooking at home, especially when managing school, work, and limited budgets. We’ve all experienced the disappointment that comes with having fresh ingredients go to waste just because we didn’t have the time or inspiration to use them. Or, times where we’ve had one random item in the fridge and no idea what to do with it. As developers, we are motivated by these shared experiences and want to create a solution that helps others reduce waste, save money, and be more organized in the kitchen.
+We envision an application that acts as both a practical tool and a source of culinary inspiration. By allowing users to track their ingredients and discover recipes based on what they already have, we remove the stress from daily meal decisions. We also hope to encourage healthier habits by making home-cooked meals more accessible and less intimidating. Ultimately, we aim to build something that empowers users of all skill levels to enjoy cooking.
+
 
 ## User Stories 
 | Priority | User  |Description |Technical Implementation
