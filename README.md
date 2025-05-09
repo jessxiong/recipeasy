@@ -1,1 +1,19 @@
-# recipeasy
+# recipEASY
+
+| Priority | User  |Description |Technical Implementation
+|--|--| --|--|
+| P0 | As a user |I want to be able to view a database of recipes without having to log in.  | Get all of the recipe data from the database and render them on the homepage.|
+| P0 | As a user |I want to be able to add a recipes to the recipe database  as a logged in user. | After authenticating the user, provide a form to submit a recipe with all of the recipe fields, validate the inputs and save it into the recipe database. |
+| P0 | As a user |I want to be able to create an account and log into and out of the account. | Use Azure Authentication when users log into authenticate them and enter them into the database.|
+| P1 | As a user |I want to be able to search for recipes stored in the database that use specific ingredients in the search bar.| Implement search that queries the MongoDB and displays all of the recipes where something in the ingredients field matches the input. |
+| P1 |I want to be able to login and add recipes to my personal cookbook. | Have a “plus” button that allows users to add their recipe to a personal cookbook. This creates a reference in the Cookbooks table with all of the user information and the recipeID. |
+| P2 | As a user |I want to be able to choose a specific ingredient that I have and view all recipes that contain that ingredient out of my personal recipe lists/cookbooks.| Filter from the user’s saved recipes by including a search function in the cookbooks page. Use a query on the user’s specific cookbook data to find and display the recipes with an ID that match the specified input. |
+| P2 | As a user |I want to be able to filter out a specific ingredient in the case of an allergy or preference.  | Include a filter button on every search function that allows users to input an ingredient to exclude. When querying the recipes, exclude all of those with the input ingredient|
+| P2 | As a user |I want to be able to reorder the recipes from highest rated to lowest. | Include a filter button that retrieves the recipes from the database in descending order based on the rating field.|
+| P1 | As a user |I want to be able to add a recipe to my favorites list and be able to create/add custom lists for other recipes. | Store favorite recipes in favorites or custom lists by creating or adding to a list by appending the recipe ID to them.|
+| P2 | As a user |I want to be able to add recipes to multiple lists/”cookbooks”| Allow the same recipes to be referenced in different cookbooks under the same user’s lists. |
+| P2 | As a user |I want to be able to add comments and ratings to recipes.  | Create a collection of comments that are associated with a recipe ID and the user ID that posted it. Store the numeric rating and the comment string. |
+| P3 | As a user |I want to be able to create sublists within my current cookbook lists to organize my recipes.| Allow the list of recipes in a cookbook to be nested to also store an array of sublists that contain the title, description, recipe IDs, etc. |
+| P3 | As a user |I want to be able to keep track of each ingredient I have and how many I have used/have left depending on which recipes I have made.  | Allow the user to store all of the ingredients they have and the quantity in a table. Each time a recipe is made, the number of ingredients used in that recipe are subtracted from the corresponding table value. |
+| P3 | As a user |I want to be able to create private and public lists, where public lists are viewable to all users who view my account. | Include a visibility feature for each cookbook list, where only the ones marked as public are shown and rendered on the public profile. |
+| P3 | As a user |I want to be able to create my own recipes and make them public for me and other users to add.  | Include a button that allows users to create their own recipes. This form saves the recipe to the database, keeping track of ingredients, title, instructions, who it was created by, etc. and is marked as public. |
