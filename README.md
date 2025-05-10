@@ -73,7 +73,7 @@ Recipes
 - recipePrivacy (string with two potential values: public, private)
 - recipeServings (int)
 - recipeIngredients (array of key-value pairs)
- - ingredient: count
+  - ingredient: count
 - recipeInstructions (string)
 - allergens (array of strings)
 - views (int)
