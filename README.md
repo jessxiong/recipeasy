@@ -17,7 +17,7 @@ We envision an application that acts as both a practical tool and a source of cu
 ## Technical Description
 
 ### Architectural Diagrams
-
+<img width="791" alt="Screenshot 2025-05-09 at 9 52 53 PM" src="https://github.com/user-attachments/assets/53141f71-bb9c-4f8a-98bb-c1fb3048b191" />
 
 ### Data Flow Diagram
 
