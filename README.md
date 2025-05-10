@@ -14,8 +14,13 @@ Our audience wants to use our application because it simplifies meal planning an
 As young adults and busy students, we understand the struggles that come with cooking at home, especially when managing school, work, and limited budgets. We’ve all experienced the disappointment that comes with having fresh ingredients go to waste just because we didn’t have the time or inspiration to use them. Or, times where we’ve had one random item in the fridge and no idea what to do with it. As developers, we are motivated by these shared experiences and want to create a solution that helps others reduce waste, save money, and be more organized in the kitchen.
 We envision an application that acts as both a practical tool and a source of culinary inspiration. By allowing users to track their ingredients and discover recipes based on what they already have, we remove the stress from daily meal decisions. We also hope to encourage healthier habits by making home-cooked meals more accessible and less intimidating. Ultimately, we aim to build something that empowers users of all skill levels to enjoy cooking.
 
+## Technical Description
 
-## User Stories 
+### Architectural Diagrams
+
+### Data Flow Diagram
+
+### User Stories 
 | Priority | User  |Description |Technical Implementation
 |--|--| --|--|
 | P0 | As a user |I want to be able to view a database of recipes without having to log in.  | Get all of the recipe data from the database and render them on the homepage.|
@@ -33,3 +38,7 @@ We envision an application that acts as both a practical tool and a source of cu
 | P3 | As a user |I want to be able to keep track of each ingredient I have and how many I have used/have left depending on which recipes I have made.  | Allow the user to store all of the ingredients they have and the quantity in a table. Each time a recipe is made, the number of ingredients used in that recipe are subtracted from the corresponding table value. |
 | P3 | As a user |I want to be able to create private and public lists, where public lists are viewable to all users who view my account. | Include a visibility feature for each cookbook list, where only the ones marked as public are shown and rendered on the public profile. |
 | P3 | As a user |I want to be able to create my own recipes and make them public for me and other users to add.  | Include a button that allows users to create their own recipes. This form saves the recipe to the database, keeping track of ingredients, title, instructions, who it was created by, etc. and is marked as public. |
+
+### REST API Endpoints
+
+### Database Schema
