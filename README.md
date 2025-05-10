@@ -50,7 +50,7 @@ User
 - username (string)
 - userDescription (string)
 - ingredients (array of key-value pairs)
- - ingredient: count
+  - ingredient: count
 - favorites (array of recipeID)
 - allergens (array of strings)
 
@@ -61,9 +61,9 @@ Cookbooks
 - description (string)
 - cookbookPrivacy (string with two potential values: public, private)
 - lists (array of dictionaries/objects)
- - listTitle: string
- - listPrivacy: (string with two potential values: public, private)
- - recipes: (array of recipeID)
+  - listTitle: string
+  - listPrivacy: (string with two potential values: public, private)
+  - recipes: (array of recipeID)
 
 Recipes
 - recipeID (int)
