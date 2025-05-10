@@ -20,6 +20,8 @@ We envision an application that acts as both a practical tool and a source of cu
 
 ### Data Flow Diagram
 
+
+
 ### User Stories 
 | Priority | User  |Description |Technical Implementation
 |--|--| --|--|
@@ -42,3 +44,50 @@ We envision an application that acts as both a practical tool and a source of cu
 ### REST API Endpoints
 
 ### Database Schema
+
+User
+- userID (int)
+- username (string)
+- userDescription (string)
+- ingredients (array of key-value pairs)
+ - ingredient: count
+- favorites (array of recipeID)
+- allergens (array of strings)
+
+Cookbooks
+- userID (int)
+- username (string)
+- title (string)
+- description (string)
+- cookbookPrivacy (string with two potential values: public, private)
+- lists (array of dictionaries/objects)
+ - listTitle: string
+ - listPrivacy: (string with two potential values: public, private)
+ - recipes: (array of recipeID)
+
+Recipes
+- recipeID (int)
+- recipeName (string)
+- recipeDescription (string)
+- recipeOwner (string)
+- recipePrivacy (string with two potential values: public, private)
+- recipeServings (int)
+- recipeIngredients (array of key-value pairs)
+ - ingredient: count
+- recipeInstructions (string)
+- allergens (array of strings)
+- views (int)
+- likes (int)
+- comments (array of strings)
+- picture (string)
+
+Ingredients
+- userID (int)
+- ingredientID (int)
+- ingredientName (string)
+- category (string)
+- description (string)
+- allergens (array of strings)
+- count (int)
+- picture (string, path to img in directory or api)
+
