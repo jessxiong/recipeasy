@@ -18,6 +18,7 @@ We envision an application that acts as both a practical tool and a source of cu
 
 ### Architectural Diagrams
 
+
 ### Data Flow Diagram
 
 ![Data Flow Diagram](https://github.com/user-attachments/assets/f4d67039-0b31-44b8-9ad1-b54da2b035b9)
@@ -42,6 +43,32 @@ We envision an application that acts as both a practical tool and a source of cu
 | P3 | As a user |I want to be able to create my own recipes and make them public for me and other users to add.  | Include a button that allows users to create their own recipes. This form saves the recipe to the database, keeping track of ingredients, title, instructions, who it was created by, etc. and is marked as public. |
 
 ### REST API Endpoints
+GET /recipes returns all recipes in database
+
+GET /recipes/ingredient returns recipes given a specific ingredient
+
+GET /recipes/recipeid returns a specific recipe
+
+POST /recipes/add adds new recipe to database
+
+POST /recipes/recipeid/action adds users comments or rating to recipes database
+
+GET /cookbook/userid returns all cookbooks a user has created
+
+POST /cookbook/userid/add adds a new cookbook to a user’s account
+
+PATCH /cookbook/userid/description updates information about the cookbook’s description
+
+
+GET /user/login  Allows users to log into their account.
+
+
+POST /user/register  Allows users to register for an account.
+
+
+GET /user/profile returns Users profile page and information
+
+
 
 ### Database Schema
 
