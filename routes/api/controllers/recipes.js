@@ -4,7 +4,7 @@ const router = express.Router()
 /*
 GET /
     * function: retrives all recipes in mongodb 
-    * sends: json of all recipes
+    * sends: json of sl
     * error: json errors  
 */
 router.get('/', async (req, res) => {
@@ -17,6 +17,29 @@ router.get('/', async (req, res) => {
         res.status(500).json({ status: "error", error: error })
     }
 })
+
+/*
+GET /:id
+    * function: retrives a specific recipes in mongodb 
+    * sends: json of selected recipe
+    * error: json errors  
+*/
+router.get('/:id', async (req, res) => {
+    try {
+        const recipeId = req.params.id
+        const recipe = await req.models.Recipe.findById(recipeId)
+    
+        if (!recipe) {
+          return res.status(404).json({ status: "error", error: "Recipe not found" })
+        }
+        res.json(recipe)
+      } 
+      catch (error) {
+            console.log(`Error retrieving recipe with ID ${req.params.id}: ${error}`)
+            res.status(500).json({ status: "error", error: error })
+      }
+  })
+  
 
 
 /*
