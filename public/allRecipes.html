@@ -30,7 +30,35 @@
                 <input type="text" placeholder="e.g. lettuce, chicken, bread">
             </div>
         </div>
-        <p class="subheading">All recipes for when you are just browsing</p>
+        <p class="subheading">All recipes for when you are just browsing</p></br>
+
+        <button id="addRecipe" class="button">Add New Recipe</button>
+
+        <!-- popup form to add new recipe -->
+        <div id="recipePopup" class="recipePopup">
+            <div class="popupContent">
+                <span class="close-btn">&times;</span>
+                <h2>Add New Recipe</h2>
+                <form id="recipeForm">
+                    <label>Recipe Name:<input type="text" name="name" required placeholder="e.g. Banana Bread"></label>
+                    
+                    <label>
+                        Ingredients:
+                        <input type="text" id="ingredientInput" placeholder="e.g. 1 cup flour">
+                        <button type="button" id="addIngredientBtn" class="addbtn">Add</button>
+                    </label>
+                    <ul id="ingredientList"></ul>
+
+                    <!-- Hidden input to store final list -->
+                    <input type="hidden" name="ingredients" id="ingredientsField">
+
+                    <label>Summary:<textarea name="summary" required placeholder="Write a brief description of the recipe..."></textarea></label>
+                    <label>Website Link (Optional):<input type="url" name="website"></label>
+                    <label>Cover Photo:<input type="file" name="coverPhoto" accept="image/*"></label>
+                    <button type="submit" class="button">Submit Recipe</button>
+                </form>
+            </div>
+        </div>
 
         <div class="recipe-cards">
             <a href="recipe.html"><div class="recipe-card">recipe1</div></a>
@@ -38,6 +66,6 @@
             <div class="recipe-card"></div>
         </div>
     </div>
-    
+    <script src="javascripts/index.js"></script>
 </body>
 </html>
