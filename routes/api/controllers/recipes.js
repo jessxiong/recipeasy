@@ -4,12 +4,13 @@ const router = express.Router()
 /*
 GET /
     * function: retrives all recipes in mongodb 
-    * sends: html that displays cards of all recipes
+    * sends: json of all recipes
     * error: json errors  
 */
 router.get('/', async (req, res) => {
   try{
-    console.log("gets all recipes")
+    let allRecipes = await req.models.Recipe.find()
+    res.json(allRecipes)
    } 
    catch(error){
         console.log(`Error retrieving all recipes: ${error}`)
@@ -29,15 +30,25 @@ router.post('/', async (req, res) => {
       //only logged in users can post
       if(!req.session.isAuthenticated){
           return res.status(401).json({status: "error", error: "not logged in"})
-      }
-      
-    
+      } */
+      const name = req.body.recipeName
+      const desc = req.body.recipeDescription
+      const owner = req.body.username
+      const ingredients = req.body.recipeIngredients
+      const instructions = req.body.recipeInstructions
+      if(req.body.image){  const image = req.body.image  }
 
-      const newRecipe = new models.???({
-         
+      const newRecipe = new models.Recipe({
+        recipeName: name,
+        recipeDescription: desc,
+        recipeOwner: owner,
+        recipePrivacy: 'Public',
+        recipeIngredients: ingredients,
+        recipeInstructions: instructions,
+        image: image ? image : ""
       })
 
-      await newRecipe.save()*/
+      await newRecipe.save()
       res.json({ status: "success" })
   }
   catch(err){
@@ -46,24 +57,6 @@ router.post('/', async (req, res) => {
 
   }
 })
-
-/*
-GET /ingredient
-    * function: retrives all recipes with query ingredient in mongodb 
-    * sends: html that displays cards of all recipes with query ingredient
-    * error: json errors  
-*/
-router.get('/ingredient', async (req, res) => {
-  try{
-    console.log("gets all recipes with given ingredient")
-   } 
-   catch(error){
-        console.log(`Error retrieving recipes with ingredient $. . . : ${error}`)
-        res.status(500).json({ status: "error", error: error })
-    }
-})
-
-
 
 
 export default router

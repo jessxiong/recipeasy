@@ -6,26 +6,11 @@ await mongoose.connect("mongodb+srv://client:info441clientpassword@recipeasy.zfa
 
 const userSchema = new mongoose.Schema({
     username: String,
-    userDescription: String,
-    ingredients: {type: Map, of: Number, required: true},
-    favorites: {type: mongoose.Schema.Types.ObjectId, ref: "Recipe"},
+    userEmail: String,
     allergens: [String]
-
 });
 
 models.User = mongoose.model('User', userSchema);
-
-const ingredientSchema = new mongoose.Schema({
-    userID: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-    ingredientName: String,
-    category: String,
-    description: String,
-    allergens: [String],
-    count: Number,
-    image: String
-});
-
-models.Ingredient = mongoose.model('Ingredient', ingredientSchema);
 
 const recipeSchema = new mongoose.Schema({
     recipeName: String,
@@ -33,14 +18,12 @@ const recipeSchema = new mongoose.Schema({
     recipeOwner: {type: mongoose.Schema.Types.username, ref: "User"},
     recipePrivacy: String,
     recipeIngredients: {type: Map, of: Number, required: true},
-    recipeInstructions: String,
-    allergens: [String],
-    views: Number,
-    likes: Number,
-    comments: [String],
+    recipeInstructions: String, //do we need recipe description and recipe instructions?
+   // allergens: [String],
+    //likes: Number,
+    //comments: [String],
     image: String
-
-});
+}); 
 
 models.Recipe = mongoose.model('Recipe', recipeSchema);
 
