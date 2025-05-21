@@ -32,7 +32,7 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-//import models from './models.js';
+import models from './models.js';
 
 import apiRouter from './routes/api/api.js';
 
@@ -56,10 +56,10 @@ app.use(session({
 const authProvider = await WebAppAuthProvider.WebAppAuthProvider.initialize(authConfig);
 app.use(authProvider.authenticate());
 
-// app.use((req, res, next) => {
-//     req.models = models
-//     next();
-// })
+app.use((req, res, next) => {
+  req.models = models
+  next();
+})
 
 app.use('/api', apiRouter);
 
