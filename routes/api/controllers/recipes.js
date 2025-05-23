@@ -1,17 +1,18 @@
 import express from 'express'
-import models from '././models.js'
+import models from '../../../models.js';
 
 const router = express.Router()
 
 /*
 GET /
     * function: retrives all recipes in mongodb 
-    * sends: json of sl
+    * sends: json recipes and their info
     * error: json errors  
 */
 router.get('/', async (req, res) => {
   try{
-    let allRecipes = await req.models.Recipe.find()
+    let allRecipes = await req.
+    models.Recipe.find()
     res.json(allRecipes)
    } 
    catch(error){
