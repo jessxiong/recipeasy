@@ -24,7 +24,7 @@ router.get('/userInfo', async function(req, res) {
         }
     }
     catch(error){ 
-        console.log("Error getting user information", error)
+        console.log("Error getting user information: ", error)
         res.status(500).json({status: "server error"}) 
     }
 });
