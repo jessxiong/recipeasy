@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body onload="init()">
     <div class="header">
         <h1>recipeEASY</h1>
         <div class="auth">
@@ -40,8 +40,8 @@
                 <span class="close-btn">&times;</span>
                 <h2>Add New Recipe</h2>
                 <form id="recipeForm">
-                    <label>Recipe Name:<input type="text" name="recipeName" required placeholder="e.g. Banana Bread"></label>
-                    <label>Description:<textarea name="recipeDescription" required placeholder="Write a brief description of the recipe..."></textarea></label>
+                    <label>Recipe Name:<input type="text" id="recipeName" required placeholder="e.g. Banana Bread"></label>
+                    <label>Description:<textarea id="recipeDescription" required placeholder="Write a brief description of the recipe..."></textarea></label>
                     <label>
                         Ingredients:
                         <input type="text" id="ingredientInput" placeholder="e.g. 1 cup flour">
@@ -62,22 +62,19 @@
 
                     <label>
                         Privacy:
-                        <select name="recipePrivacy" required>
+                        <select id="recipePrivacy" required>
                             <option value="public">Public</option>
                             <option value="private">Private</option>
                         </select>
                     </label>
 
-                    <label>Cover Photo:<input type="file" name="coverPhoto" accept="image/*"></label>
-                    <button type="submit" class="button">Submit Recipe</button>
+                    <label>Cover Photo:<input type="file" id="coverPhoto" accept="image/*"></label>
+                    <button type="submit" class="button" onclick="postRecipe()">Submit Recipe</button>
                 </form>
             </div>
         </div>
 
         <div class="recipe-cards">
-            <a href="recipe.html"><div class="recipe-card">recipe1</div></a>
-            <div class="recipe-card"></div>
-            <div class="recipe-card"></div>
         </div>
     </div>
     <script src="javascripts/index.js"></script>

@@ -11,9 +11,26 @@ GET /
 */
 router.get('/', async (req, res) => {
   try{
-    let allRecipes = await req.
-    models.Recipe.find()
-    res.json(allRecipes)
+    let allRecipes = await req.models.Recipe.find()
+    let previews = await Promise.all(
+      allRecipes.map(async (recipe) => {
+        let recipeName = recipe.recipeName;
+        let recipeIngredients = recipe.recipeIngredients.toString()
+        let recipeDescription = recipe.recipeDescription;
+
+        let preview = `<div>`
+        if (recipeName) { preview += `<h2>${recipeName}</h2>`}
+        if (recipeIngredients) { preview += `<p>${recipeIngredients}</p>`}
+        if (recipeDescription) { preview += `<p>${recipeDescription}</p></div>`}
+        return {
+          recipeName: recipeName,
+          recipeIngredients: recipeIngredients,
+          recipePreview: preview
+        }
+      }
+      ))
+    res.type('json')
+    res.send(allRecipes)
    } 
    catch(error){
         console.log(`Error retrieving all recipes: ${error}`)

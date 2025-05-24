@@ -1,9 +1,11 @@
+async function init(){
+    loadRecipes();
+}
 
 // open & close popup form to add new recipe
 const popup = document.getElementById('recipePopup');
 document.getElementById('addRecipe').onclick = () => popup.style.display = 'flex';
 document.querySelector('.close-btn').onclick = () => popup.style.display = 'none';
-
 
 // adding ingredients & allergens to recipe
 function setupListInput({ inputId, addBtnId, listId, fieldId }) {
@@ -59,3 +61,45 @@ setupListInput({
   listId: 'allergenList',
   fieldId: 'allergensField'
 });
+
+async function loadRecipes(){
+  document.getElementById("recipe-cards").innerText = "Loading...";
+  let recipesJson = await fetchJSON(`api/recipes`)
+
+  let recipesHtml = recipesJson.map(recipeInfo => {
+    return `
+    <div class="recipe-card">
+    ${recipeInfo.recipePreview}
+            </div> 
+    `
+  })
+  document.getElementById("recipe-cards").innerHTML = recipesHtml;
+}
+
+async function postRecipe(){
+  let recipeName = document.getElementById("recipeName").value;
+  let recipeDescription = document.getElementById("recipeDescription").value;
+  let recipeIngredients = document.getElementById("ingredientList").value;
+  let recipeAllergens = document.getElementById("allegenList").value;
+  let recipePrivacy = document.getElementById("recipePrivacy").value;
+  let recipeImage = document.getElementById('coverPhoto').value;
+  
+  try{
+        await fetchJSON(`api/${apiVersion}/recipes`, {
+            method: "POST",
+            body: {
+              recipeName: recipeName,
+              recipeDescription: recipeDescription,
+              recipeIngredients: recipeIngredients,
+              recipeAllergens: recipeAllergens,
+              recipePrivacy: recipePrivacy,
+              image: recipeImage
+            }
+        })
+    }catch(error){
+        document.getElementById("postStatus").innerText = "Error"
+        throw(error)
+    }
+
+    loadRecipes();
+}
