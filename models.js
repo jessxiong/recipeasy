@@ -25,7 +25,6 @@ const recipeSchema = new mongoose.Schema({
     likes: Number,
     comments: [String],
     image: String
-
 });
 
 models.Recipe = mongoose.model('Recipe', recipeSchema);

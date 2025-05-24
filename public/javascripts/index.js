@@ -1,55 +1,61 @@
 
 // open & close popup form to add new recipe
 const popup = document.getElementById('recipePopup');
-const openBtn = document.getElementById('addRecipe');
-const closeBtn = document.querySelector('.close-btn');
-
-openBtn.onclick = () => {
-    popup.style.display = 'flex';
-};
-
-closeBtn.onclick = () => {
-    popup.style.display = 'none';
-};
+document.getElementById('addRecipe').onclick = () => popup.style.display = 'flex';
+document.querySelector('.close-btn').onclick = () => popup.style.display = 'none';
 
 
-// adding ingredients to recipe
-const ingredientInput = document.getElementById('ingredientInput');
-const addIngredientBtn = document.getElementById('addIngredientBtn');
-const ingredientList = document.getElementById('ingredientList');
-const ingredientsField = document.getElementById('ingredientsField');
-const recipeForm = document.getElementById('recipeForm');
+// adding ingredients & allergens to recipe
+function setupListInput({ inputId, addBtnId, listId, fieldId }) {
+  const input = document.getElementById(inputId);
+  const addBtn = document.getElementById(addBtnId);
+  const list = document.getElementById(listId);
+  const field = document.getElementById(fieldId);
 
-let ingredients = [];
+  const values = [];
 
-addIngredientBtn.onclick = () => {
-  const value = ingredientInput.value.trim();
-  if (value) {
-    ingredients.push(value);
-    ingredientInput.value = '';
-    renderIngredients();
+  function render() {
+    list.innerHTML = '';
+    values.forEach((val, idx) => {
+      const li = document.createElement('li');
+      li.textContent = val;
+
+      const btn = document.createElement('button');
+      btn.textContent = 'x';
+      btn.type = 'button';
+      btn.style.marginLeft = '10px';
+      btn.onclick = () => {
+        values.splice(idx, 1);
+        render();
+      };
+
+      li.appendChild(btn);
+      list.appendChild(li);
+    });
+    field.value = JSON.stringify(values);
   }
-};
 
-function renderIngredients() {
-  ingredientList.innerHTML = '';
-  ingredients.forEach((item, index) => {
-    const li = document.createElement('li');
-    li.textContent = item;
-
-    const removeBtn = document.createElement('button');
-    removeBtn.textContent = 'x';
-    removeBtn.style.marginLeft = '10px';
-    removeBtn.type = 'button';
-    removeBtn.onclick = () => {
-      ingredients.splice(index, 1);
-      renderIngredients();
-    };
-
-    li.appendChild(removeBtn);
-    ingredientList.appendChild(li);
-  });
-
-  // Update hidden input field with JSON or comma-separated list
-  ingredientsField.value = JSON.stringify(ingredients); // or use `.join(', ')`
+  addBtn.onclick = () => {
+    const val = input.value.trim();
+    if (val) {
+      values.push(val);
+      input.value = '';
+      render();
+    }
+  };
 }
+
+// setup both inputs
+setupListInput({
+  inputId: 'ingredientInput',
+  addBtnId: 'addIngredientBtn',
+  listId: 'ingredientList',
+  fieldId: 'ingredientsField'
+});
+
+setupListInput({
+  inputId: 'allergenInput',
+  addBtnId: 'addAllergenBtn',
+  listId: 'allergenList',
+  fieldId: 'allergensField'
+});

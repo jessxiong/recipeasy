@@ -40,8 +40,8 @@
                 <span class="close-btn">&times;</span>
                 <h2>Add New Recipe</h2>
                 <form id="recipeForm">
-                    <label>Recipe Name:<input type="text" name="name" required placeholder="e.g. Banana Bread"></label>
-                    
+                    <label>Recipe Name:<input type="text" name="recipeName" required placeholder="e.g. Banana Bread"></label>
+                    <label>Description:<textarea name="recipeDescription" required placeholder="Write a brief description of the recipe..."></textarea></label>
                     <label>
                         Ingredients:
                         <input type="text" id="ingredientInput" placeholder="e.g. 1 cup flour">
@@ -49,11 +49,25 @@
                     </label>
                     <ul id="ingredientList"></ul>
 
-                    <!-- Hidden input to store final list -->
+                    <label>
+                        Allergens:
+                        <input type="text" id="allergenInput" placeholder="e.g. nuts">
+                        <button type="button" id="addAllergenBtn" class="addbtn">Add</button>
+                    </label>
+                    <ul id="allergenList"></ul>
+                
+                    <!-- Hidden input to store final list for ingredients and allergens -->
                     <input type="hidden" name="ingredients" id="ingredientsField">
+                    <input type="hidden" name="allergens" id="allergensField">
 
-                    <label>Summary:<textarea name="summary" required placeholder="Write a brief description of the recipe..."></textarea></label>
-                    <label>Website Link (Optional):<input type="url" name="website"></label>
+                    <label>
+                        Privacy:
+                        <select name="recipePrivacy" required>
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                    </label>
+
                     <label>Cover Photo:<input type="file" name="coverPhoto" accept="image/*"></label>
                     <button type="submit" class="button">Submit Recipe</button>
                 </form>
