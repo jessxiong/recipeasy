@@ -68,6 +68,7 @@ POST /
     * returns: json status i.e {"status": "success"} or  {"status": "error", "error": error}
 */
 router.post('/', async (req, res) => {
+  console.log("recipe saving...", req.body);
   try{
       /*
       //only logged in users can post
@@ -78,8 +79,9 @@ router.post('/', async (req, res) => {
       const desc = req.body.recipeDescription
       const owner = req.body.username
       const ingredients = req.body.recipeIngredients
+      const allergens = req.body.recipeAllergens || []
       const instructions = req.body.recipeInstructions
-      if(req.body.image){  const image = req.body.image  }
+      let image = req.body.image || ""
 
       const newRecipe = new models.Recipe({
         recipeName: name,
@@ -88,14 +90,18 @@ router.post('/', async (req, res) => {
         recipePrivacy: 'Public',
         recipeIngredients: ingredients,
         recipeInstructions: instructions,
-        image: image ? image : ""
+        recipeAllergens: allergens,
+        image: image,
+        views: 0,
+        likes: 0,
+        comments: []
       })
-
+      console.log("Saving recipe:", newRecipe);
       await newRecipe.save()
       res.json({ status: "success" })
   }
   catch(err){
-      console.log(`Error saving new post: ${err}`)
+      console.log(`error saving: ${err}`)
       res.status(500).json({ status: "error", error: err })
 
   }

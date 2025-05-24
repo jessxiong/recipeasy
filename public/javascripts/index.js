@@ -1,5 +1,9 @@
 async function init(){
-    loadRecipes();
+  document.getElementById("recipeForm").onsubmit = (e) => {
+    e.preventDefault();
+    postRecipe();       
+  };
+  loadRecipes();
 }
 
 // open & close popup form to add new recipe
@@ -62,44 +66,72 @@ setupListInput({
   fieldId: 'allergensField'
 });
 
-async function loadRecipes(){
+
+async function loadRecipes() {
   document.getElementById("recipe-cards").innerText = "Loading...";
-  let recipesJson = await fetchJSON(`api/recipes`)
+  let recipesJson = await fetchJSON(`api/recipes`);
 
   let recipesHtml = recipesJson.map(recipeInfo => {
     return `
     <div class="recipe-card">
-    ${recipeInfo.recipePreview}
-            </div> 
-    `
-  })
-  document.getElementById("recipe-cards").innerHTML = recipesHtml;
+      <h3>${recipeInfo.recipeName || 'Untitled Recipe'}</h3>
+      <p class="description">${recipeInfo.recipeDescription || ''}</p>
+      <div class="ingredients">
+        <h4>Ingredients:</h4>
+        <ul>
+          ${recipeInfo.recipeIngredients ? 
+            recipeInfo.recipeIngredients.map(ing => `<li>${ing}</li>`).join('') 
+            : '<li>No ingredients listed</li>'}
+        </ul>
+      </div>
+      ${recipeInfo.recipeAllergens && recipeInfo.recipeAllergens.length > 0 ? `
+        <div class="allergens">
+          <h4>Allergens:</h4>
+          <ul>
+            ${recipeInfo.recipeAllergens.map(all => `<li>${all}</li>`).join('')}
+          </ul>
+        </div>
+      ` : ''}
+    </div>
+    `;
+  });
+  
+  document.getElementById("recipe-cards").innerHTML = recipesHtml.join('');
 }
 
 async function postRecipe(){
   let recipeName = document.getElementById("recipeName").value;
   let recipeDescription = document.getElementById("recipeDescription").value;
-  let recipeIngredients = document.getElementById("ingredientList").value;
-  let recipeAllergens = document.getElementById("allegenList").value;
+  let recipeIngredients = JSON.parse(document.getElementById("ingredientsField").value || "[]") 
+  let recipeAllergens = JSON.parse(document.getElementById("allergensField").value || "[]");
   let recipePrivacy = document.getElementById("recipePrivacy").value;
-  let recipeImage = document.getElementById('coverPhoto').value;
-  
-  try{
-        await fetchJSON(`api/${apiVersion}/recipes`, {
-            method: "POST",
-            body: {
-              recipeName: recipeName,
-              recipeDescription: recipeDescription,
-              recipeIngredients: recipeIngredients,
-              recipeAllergens: recipeAllergens,
-              recipePrivacy: recipePrivacy,
-              image: recipeImage
-            }
-        })
-    }catch(error){
-        document.getElementById("postStatus").innerText = "Error"
-        throw(error)
-    }
+  let recipeImage = document.getElementById('coverPhoto').value; // gives img file name for now, change later
 
+  if (!recipeName.trim()) {
+    document.getElementById("postStatus").innerText = "Recipe name is required";
+    return;
+  }
+
+  try {
+    await fetchJSON(`api/recipes`, {
+      method: "POST",
+      body: {
+        recipeName,
+        recipeDescription,
+        recipeIngredients,
+        recipeAllergens,
+        recipePrivacy,
+        image: recipeImage
+      }
+    });
+    document.getElementById("postStatus").innerText = "Recipe added!";
+    document.getElementById("recipeForm").reset();
+    popup.style.display = 'none';
     loadRecipes();
+  } catch (error) {
+    document.getElementById("postStatus").innerText = "Error";
+    throw error;
+  }
 }
+
+

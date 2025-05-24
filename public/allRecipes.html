@@ -69,14 +69,17 @@
                     </label>
 
                     <label>Cover Photo:<input type="file" id="coverPhoto" accept="image/*"></label>
-                    <button type="submit" class="button" onclick="postRecipe()">Submit Recipe</button>
+                    <img id="imagePreview" style="max-width: 200px; display: none;" alt="Image preview">
+                    <p id="postStatus" style="color: red;"></p>
+                    <button type="submit" class="button">Submit Recipe</button>
                 </form>
             </div>
         </div>
 
-        <div class="recipe-cards">
+        <div id="recipe-cards">
         </div>
     </div>
+    <script src="javascripts/utils.js"></script>
     <script src="javascripts/index.js"></script>
 </body>
 </html>
