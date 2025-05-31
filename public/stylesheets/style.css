@@ -99,26 +99,69 @@ a {
 }
 .recipe-cards {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
-    padding-top: 25px;
+    flex: 1 1 600px; 
+    min-width: 300px;
 }
 .recipe-card {
     width: 300px;
     height: 400px;
-
-    /* temp color */
-    background-color: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.recipe-card-img {
+    width: 280px;
+    height: auto;
 }
 .comments-container {
+    /* temp styling */
     width: 100%;
     min-height: 300px;
-
-    /* temp color */
     background-color: #f0f0f0;
 }
+.bottom-content{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: space-between;
+    margin-top: 20px;
+}
 
-/* recipe popup form */
-.recipePopup {
+/* filter */
+.filter-content{
+    width: 275px;
+    height: min-content;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: 25px;
+    border: 1px solid #ccc;
+}
+.filter-heading{
+    text-align: center;
+    font-family: 'Literata', sans-serif;
+    color: #65881A;
+    font-size: 30px;
+}
+.filter-dropdown {
+    margin-bottom: 15px;
+}
+.filter-dropdown summary {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.filter-dropdown label {
+    display: block;
+    margin: 5px 0 5px 15px;
+}
+.details {
+    padding-bottom: 15px;
+}
+  
+/* recipe/cookbook popup form */
+.recipePopup, .cookbookPopup{
     position: fixed;
     top: 0;
     left: 0;
@@ -138,7 +181,7 @@ a {
     max-width: 500px;
     position: relative;
 }
-.close-btn {
+.close-btn, .close-btn2 {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -163,4 +206,3 @@ a {
 .addbtn{
     margin-top: 10px;
 }
-  

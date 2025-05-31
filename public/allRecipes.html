@@ -27,7 +27,7 @@
         <div class="content-header">
             <h1>RECIPES</h1>
             <div class="search-container">
-                <input type="text" placeholder="e.g. lettuce, chicken, bread">
+                <input type="text" placeholder="Search for recipe name...">
             </div>
         </div>
         <p class="subheading">All recipes for when you are just browsing</p></br>
@@ -76,7 +76,72 @@
             </div>
         </div>
 
-        <div id="recipe-cards">
+        <div class="bottom-content">
+            <div id="recipe-cards" class="recipe-cards"></div>
+
+            <div class="filter-content">
+                <h2 class="filter-heading">FILTER</h2>
+                <form>
+                    <div class="filter-dropdown">
+                        <h3>Ingredients</h3>
+                        <details class="details">
+                            <summary>Dairy</summary>
+                            <label><input type="checkbox" value="egg"> Eggs</label>
+                            <label><input type="checkbox" value="milk"> Milk</label>
+                            <label><input type="checkbox" value="cheese"> Cheese</label>
+                        </details>
+                        <details class="details">
+                            <summary>Grains</summary>
+                            <label><input type="checkbox" value="flour"> Flour</label>
+                            <label><input type="checkbox" value="pasta"> Pasta</label>
+                            <label><input type="checkbox" value="bread"> Bread</label>
+                            <label><input type="checkbox" value="rice"> Rice</label>
+                        </details>
+                        <details class="details">
+                            <summary>Protein</summary>
+                            <label><input type="checkbox" value="chicken"> Chicken</label>
+                            <label><input type="checkbox" value="beef"> Beef</label>
+                            <label><input type="checkbox" value="pork"> Pork</label>
+                            <label><input type="checkbox" value="tofu"> Tofu</label>
+                            <label><input type="checkbox" value="fish"> Fish</label>
+                        </details>
+                        <details class="details">
+                            <summary>Vegetables</summary>
+                            <label><input type="checkbox" value="carrot"> Carrot</label>
+                            <label><input type="checkbox" value="cabbage"> Cabbage</label>
+                            <label><input type="checkbox" value="onion"> Onion</label>
+                            <label><input type="checkbox" value="pepper"> Pepper</label>
+                            <label><input type="checkbox" value="broccoli"> Broccoli</label>
+                        </details>
+                        <details class="details">
+                            <summary>Fruits</summary>
+                            <label><input type="checkbox" value="strawberry"> Strawberry</label>
+                            <label><input type="checkbox" value="blueberry"> Blueberry</label>
+                            <label><input type="checkbox" value="watermelon"> Watermelon</label>
+                            <label><input type="checkbox" value="peach"> Peach</label>
+                            <label><input type="checkbox" value="mango"> Mango</label>
+                        </details>
+        
+                        <h3>Other</h3>
+                        <details class="details">
+                            <summary>Allergens</summary>
+                            <label><input type="checkbox" value="peanut"> Peanuts</label>
+                            <label><input type="checkbox" value="flour"> Treenuts</label>
+                            <label><input type="checkbox" value="egg"> Eggs</label>
+                            <label><input type="checkbox" value="shellfish"> Shellfish</label>
+                            <label><input type="checkbox" value="gluten"> Gluten</label>
+                            <label><input type="checkbox" value="soy"> Soy</label>
+                        </details>
+                        <details class="details">
+                            <summary>Privacy</summary>
+                            <label><input type="radio" name="privacy" value="public" checked> Public</label>
+                            <label><input type="radio" name="privacy" value= "private"> Private</label>
+                        </details>
+                    </div>
+                    <button class="button" type="submit">Apply</button>
+                </form>
+            </div>
+
         </div>
     </div>
     <script src="javascripts/utils.js"></script>

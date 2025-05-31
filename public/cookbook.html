@@ -27,12 +27,40 @@
         <div class="content-header">
             <h1>COOKBOOK</h1>
             <div class="search-container">
-                <input type="text" placeholder="e.g. lettuce, chicken, bread">
+                <input type="text" placeholder="Search for recipe name...">
             </div>
         </div>
-        <p class="subheading">...</p>
+        <p class="subheading">Create cookbooks to organize your recipes!</p></br>
+
+        <button id="createCookbook" class="button">Create New Cookbook</button>
+
+        <!-- popup form to add new cookbook -->
+        <div id="cookbookPopup" class="cookbookPopup">
+            <div class="popupContent">
+                <span class="close-btn2">&times;</span>
+                <h2>Create New Cookbook</h2>
+                <form id="cookbookForm">
+                    <label>Cookbook Title:<input type="text" id="cookbookTitle" required placeholder="e.g. Favorite Recipes"></label>
+                    <label>Description:<textarea id="recipeDescription" required placeholder="Write a brief description of the cookbook..."></textarea></label>
+
+                    <label>
+                        Privacy:
+                        <select id="cookbookPrivacy" required>
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                    </label>
+     
+                    <p id="postStatus" style="color: red;"></p>
+                    <button type="submit" class="button">Create Cookbook</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="cookbook-cards" class="cookbook-cards"></div>
 
     </div>
-    
+    <script src="javascripts/utils.js"></script>
+    <script src="javascripts/cookbook.js"></script>
 </body>
 </html>

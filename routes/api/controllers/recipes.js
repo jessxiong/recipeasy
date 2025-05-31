@@ -79,7 +79,7 @@ router.post('/', async (req, res) => {
       const desc = req.body.recipeDescription
       const owner = req.body.username
       const ingredients = req.body.recipeIngredients
-      const allergens = req.body.recipeAllergens || []
+      const recipeAllergens = req.body.recipeAllergens || []
       const instructions = req.body.recipeInstructions
       let image = req.body.image || ""
 
@@ -90,7 +90,7 @@ router.post('/', async (req, res) => {
         recipePrivacy: 'Public',
         recipeIngredients: ingredients,
         recipeInstructions: instructions,
-        recipeAllergens: allergens,
+        recipeAllergens: recipeAllergens,
         image: image,
         views: 0,
         likes: 0,

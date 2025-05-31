@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     username: String,
     userDescription: String,
     favorites: [{type: mongoose.Schema.Types.ObjectId, ref: "Recipe"}],
-    allergens: [String]
+    recipeAllergens: [String]
 
 });
 
@@ -21,7 +21,7 @@ const recipeSchema = new mongoose.Schema({
     recipeOwner: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
     recipePrivacy: String,
     recipeInstructions: String,
-    allergens: [String],
+    recipeAllergens: [String],
     views: Number,
     likes: Number,
     comments: [String],

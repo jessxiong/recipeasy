@@ -11,6 +11,7 @@ const popup = document.getElementById('recipePopup');
 document.getElementById('addRecipe').onclick = () => popup.style.display = 'flex';
 document.querySelector('.close-btn').onclick = () => popup.style.display = 'none';
 
+
 // adding ingredients & allergens to recipe
 function setupListInput({ inputId, addBtnId, listId, fieldId }) {
   const input = document.getElementById(inputId);
@@ -66,15 +67,16 @@ setupListInput({
   fieldId: 'allergensField'
 });
 
-
+// populate recipe cards in allRecipes from /recipes controller
 async function loadRecipes() {
   document.getElementById("recipe-cards").innerText = "Loading...";
   let recipesJson = await fetchJSON(`api/recipes`);
 
   let recipesHtml = recipesJson.map(recipeInfo => {
     return `
-    <div class="recipe-card">
-      <h3>${recipeInfo.recipeName || 'Untitled Recipe'}</h3>
+    <a href="recipe.html?id=${recipeInfo._id}" class="recipe-card">
+      <h2>${recipeInfo.recipeName || 'Untitled Recipe'}</h2>
+      <img src="#" class="recipe-card-img"></img>
       <p class="description">${recipeInfo.recipeDescription || ''}</p>
       <div class="ingredients">
         <h4>Ingredients:</h4>
@@ -84,15 +86,7 @@ async function loadRecipes() {
             : '<li>No ingredients listed</li>'}
         </ul>
       </div>
-      ${recipeInfo.recipeAllergens && recipeInfo.recipeAllergens.length > 0 ? `
-        <div class="allergens">
-          <h4>Allergens:</h4>
-          <ul>
-            ${recipeInfo.recipeAllergens.map(all => `<li>${all}</li>`).join('')}
-          </ul>
-        </div>
-      ` : ''}
-    </div>
+    </a>
     `;
   });
   
