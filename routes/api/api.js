@@ -3,8 +3,12 @@ var router = express.Router();
 
 import recipesRouter from './controllers/recipes.js';
 import usersRouter from './controllers/users.js';
+<<<<<<< HEAD
 //import cookbookRouter from './controllers/cookbook'
 import commentsRouter from './controllers/comments.js'
+=======
+//import cookbookRouter from './controllers/cookbooks.js'
+>>>>>>> 85bf27c (favicon added)
 
 router.use('/recipes', recipesRouter);
 router.use('/users', usersRouter);
