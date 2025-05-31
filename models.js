@@ -8,11 +8,18 @@ const userSchema = new mongoose.Schema({
     username: String,
     userDescription: String,
     favorites: [{type: mongoose.Schema.Types.ObjectId, ref: "Recipe"}],
-    recipeAllergens: [String]
+    allergens: [String]
 
 });
 
 models.User = mongoose.model('User', userSchema);
+
+const commentSchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    text: String,
+    rating: { type: Number, min: 1, max: 5 },
+    createdAt: { type: Date, default: Date.now }
+});
 
 const recipeSchema = new mongoose.Schema({
     recipeName: String,
@@ -21,10 +28,10 @@ const recipeSchema = new mongoose.Schema({
     recipeOwner: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
     recipePrivacy: String,
     recipeInstructions: String,
-    recipeAllergens: [String],
+    allergens: [String],
     views: Number,
     likes: Number,
-    comments: [String],
+    comments: [commentSchema],
     image: String
 });
 
