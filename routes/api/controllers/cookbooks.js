@@ -6,22 +6,32 @@ const router = express.Router()
 /*
 GET 
     * function: finds all recipes for given userId
-    * returns: 
+    * returns: json of users cookbook
     * error: json errors  
 */
 router.get('/', async (req, res) => {
-   try{
+    try{
         if(!req.session.isAuthenticated){ 
             return res.status(401).json({ status: "error", error: "not logged in" })
         }
-        const userId = req.query.userId
-        let userCookbooks = await req.models.Cookbook.find({user: userId})
-        //if(userId == req.session.username){ }
-        res.json(userCookbooks)  
+        const username = req.body.username
+        let userCookbooks = await models.Cookbook.findAll({username})
+        
+        //logged in users will always have at least one cookbook
+        if(!userCookbooks){
+            userCookbooks = new models.Cookbook({
+                cookbookOwner: username, 
+                title: "Favorites",
+                cookbookPrivacy: "private" })
+            await userCookbooks.save()
+        }
+
+        console.log(`Sucess retrieval of ${username} cookbooks: ${userCookbooks}`)
+        res.json(userCookbooks)
     }
     catch(error){
         console.log(`Error retrieving user info: ${error}`)
-         res.status(500).json({ status: "error", error: error })
+        res.status(500).json({ status: "error", error: error })
     }
 })
 
@@ -40,24 +50,27 @@ router.post('/', async (req, res) => {
             const privacy = req.body.privacy
 
             let newCookbook = new req.models.Cookbook({
+                cookbookOwner: userId,
                 title: title,
                 description: description,
-                cookbookOwner: userId,
                 privacy: privacy
             })
 
             await newCookbook.save()
-            res.json({status: "success"})
+            return res.status(201).json({ message: "Cookbook added", newCookbook });
         }
         else{
-            return res.status(401).json({ status: "error", error: "not logged in" })
+            return res.status(401).json({ status: "error", error: "Not logged in" })
         }
     }
     catch(error){
-        console.log(`Error updating user information: ${error}`)
+        console.log(`Error creeating new Cookbook: ${error}`)
         res.status(500).json({ status: "error", error: error })
     }
 })
+
+
+
 
 export default router
 
