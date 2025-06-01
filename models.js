@@ -43,8 +43,8 @@ const cookbookSchema = new mongoose.Schema({
     description: String,
     cookbookPrivacy: String,
     lists: [{
-        listName: String,
-        listPrivacy: String,
+        //listName: String,
+        //listPrivacy: String,
         recipes: [{type: mongoose.Schema.Types.ObjectId, ref: "Recipe"}]
     }]
 });

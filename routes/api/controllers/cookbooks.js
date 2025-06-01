@@ -40,7 +40,8 @@ router.get('/myCookbooks', async (req, res) => {
             userCookbooks = new models.Cookbook({
                 cookbookOwner: username, 
                 title: "Favorites",
-                cookbookPrivacy: "private" })
+                cookbookPrivacy: "private",
+                lists: [] })
             await userCookbooks.save()
         }
 
@@ -67,11 +68,12 @@ router.post('/', async (req, res) => {
             const userId = req.body.userId
             const privacy = req.body.privacy
 
-            let newCookbook = new req.models.Cookbook({
+            let newCookbook = new models.Cookbook({
                 cookbookOwner: userId,
                 title: title,
                 description: description,
-                privacy: privacy
+                cookbookPrivacy: privacy,
+                lists: []
             })
 
             await newCookbook.save()
