@@ -2,18 +2,36 @@ import express from 'express'
 import models from '../../../models.js';
 
 const router = express.Router()
-
 /*
-GET 
-    * function: finds all recipes for given userId
-    * returns: json of users cookbook
+GET /
+    * function: retrieves all public cookbooks
+    * returns: json of public cookbooks
     * error: json errors  
 */
 router.get('/', async (req, res) => {
     try{
-        /*if(!req.session.isAuthenticated){ 
+        const allCookbooks =  await models.Cookbook.find({cookbookPrivacy: "public"})
+       //await models.Cookbook.find({cookbookPrivacy: "public"}).select("title lists") - less info displayed?
+        console.log(`Success retrieval of all public cookbooks: ${allCookbooks}`)
+        res.json(allCookbooks)
+    }
+    catch(error){
+        console.log(`Error retrieving all public cookbooks: ${error}`)
+        res.status(500).json({ status: "error", error: error })
+    }
+})
+
+/*
+GET /myCookbooks
+    * function: finds all recipes for given userId
+    * returns: json of users cookbook
+    * error: json errors  
+*/
+router.get('/myCookbooks', async (req, res) => {
+    try{
+        if(!req.session.isAuthenticated){ 
             return res.status(401).json({ status: "error", error: "not logged in" })
-        }*/
+        }
         const username = req.body.username
         let userCookbooks = await models.Cookbook.findAll({username})
         
@@ -26,11 +44,11 @@ router.get('/', async (req, res) => {
             await userCookbooks.save()
         }
 
-        console.log(`Sucess retrieval of ${username} cookbooks: ${userCookbooks}`)
+        console.log(`Success retrieval of ${username} cookbooks: ${userCookbooks}`)
         res.json(userCookbooks)
     }
     catch(error){
-        console.log(`Error retrieving user info: ${error}`)
+        console.log(`Error retrieving username ${username} cookbooks: ${error}`)
         res.status(500).json({ status: "error", error: error })
     }
 })
