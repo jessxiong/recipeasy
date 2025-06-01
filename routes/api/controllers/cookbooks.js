@@ -70,7 +70,52 @@ router.post('/', async (req, res) => {
 })
 
 
+/*
+POST /addRecipe
+    * function: adds new recipe to a user's cookbook
+    * returns: json status
+*/
+router.post('/addRecipe', async (req, res) => {
+    try{ 
+        //user must be logged in
+        if(!req.session.isAuthenticated){ 
+            return res.status(401).json({ status: "error", error: "Not logged in" })
+        }
+        const userId = req.body.userId
+        const cookbookId = req.body.cookbookId
+        const recipeId = req.body.recipeId
 
+        const cookbook = await models.Cookbook.findById(cookbookId)
+
+        //ensures cookbook exists
+        if(!cookbook){
+            return res.status(404).json({ status: "error", error: "Could not find Cookbook to add Recipe" })
+        }
+
+        //only the user who owns the cookbook can add new recipes to it
+        if(cookbook.cookbookOwner.toString() != userId){
+            return res.status(400).json({ status: "error", error: "Can't add new recipes to another user's cookbook" })
+        }
+
+        //edge case if first recipe added to cookbook
+        if(!cookbook.lists || cookbook.lists.length === 0){
+            cookbook.lists = [{
+                listPrivacy: cookbook.cookbookPrivacy,
+                recipes: []
+            }]
+        }
+
+        //adds recipe to top of cookbooks
+        cookbook.lists[0].recipes.push(recipeId)
+        await cookbook.save()
+        res.status(200).json({ status: "success", message: "recipe added to cookbook" })
+        
+    }
+    catch(error){
+        console.log(`Error adding recipe to Cookbook: ${error}`)
+        res.status(500).json({ status: "error", error: error })
+    }
+})
 
 export default router
 
