@@ -11,9 +11,9 @@ GET
 */
 router.get('/', async (req, res) => {
     try{
-        if(!req.session.isAuthenticated){ 
+        /*if(!req.session.isAuthenticated){ 
             return res.status(401).json({ status: "error", error: "not logged in" })
-        }
+        }*/
         const username = req.body.username
         let userCookbooks = await models.Cookbook.findAll({username})
         
