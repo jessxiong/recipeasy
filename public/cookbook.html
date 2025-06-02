@@ -32,20 +32,16 @@
     <div class="content-header">
       <h1 id="cookbook-title">Loading Cookbook...</h1>
     </div>
-</div>
+  </div>
 
-<body>
-    <main>
-      <h1 id="cookbook-title">Loading...</h1>
-      <h2 id="cookbook-description" class="subheader"></h2>
-      <p id="cookbook-owner" class="user-link"></p>
-  
-      <section id="recipe-cards" class="recipe-grid">
-        <!-- Recipe cards will be inserted here -->
-      </section>
-    </main>
-  
-    <script src="/cookbookInfo.js"></script>
+  <main>
+    <h2 id="cookbook-description" class="subheader"></h2>
+    <p id="cookbook-user" class="user-link"></p>
+    <section id="recipe-cards" class="recipe-grid"> </section>
+  </main>
 
+  <script src="/javascripts/utils.js" defer></script>
+  <script src="/javascripts/index.js" defer></script>
+  <script type="module" src="/javascripts/cookbookInfo.js"></script>
 </body>
 </html>
