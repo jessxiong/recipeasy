@@ -1,39 +1,50 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
-import models from '../../../models.js';
+import models from "../../../models.js";
 
-const { Recipe } = models;
+const { Recipe, Comment } = models;
 
-//post /api/comments/:id
-//check auth, ratings, and the recipe exists 
-router.post('/:id', async (req, res) => {
-    try {
-        const userId = req.authContext?.account?.homeAccountId;
-        if (!userId) return res.status(401).json({ message: "Unauthorized" });
+router.get("/", async (req, res) => {
+  try {
+    const { recipeID } = req.query;
 
-        const recipeId = req.params.id;
-        const { text, rating } = req.body;
-
-        if (!text || rating == null || rating < 1 || rating > 5) {
-            return res.status(400).json({ message: "Invalid comment or rating" });
-        }
-
-        const recipe = await Recipe.findById(recipeId);
-        if (!recipe) return res.status(404).json({ message: "Recipe not found" });
-
-        recipe.comments.push({
-            user: userId,
-            text,
-            rating
-        });
-
-        await recipe.save();
-
-        return res.status(201).json({ message: "Comment added", recipe });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Server error" });
+    if (!recipeID) {
+      return res.status(400).json({ status: "error", error: "Missing recipeID parameter" });
     }
+
+    const comments = await Comment.find({ recipe: recipeID }).exec();
+    res.json(comments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", error: error.message });
+  }
 });
 
+router.post('/', async (req, res) => {
+
+    try {
+
+        if(!req.session.isAuthenticated){ 
+            return res.status(401).json({ status: "error", error: "not logged in" })
+        }
+
+      const { text, rating, recipeID } = req.body;
+      const Comment = req.models.Comment;
+  
+      const comment = new Comment({
+        username: req.session.account.username,
+        text,
+        rating,
+        recipe: recipeID,
+        created_date: new Date()
+      });
+  
+      await comment.save();
+      res.json({ status: 'success' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ status: 'error', error: error.message });
+    }
+  });
+ 
 export default router;

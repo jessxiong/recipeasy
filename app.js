@@ -64,10 +64,10 @@ app.use((req, res, next) => {
 app.use('/api', apiRouter);
 
 app.get('/signin', (req, res, next) => {
-    return req.authContext.login({
-      postLoginRedirectUri: '/',  
-    })(req, res, next);
-  });
+  return req.authContext.login({
+    postLoginRedirectUri: '/',
+  })(req, res, next);
+});
   
   app.get('/signout', (req, res, next) => {
     return req.authContext.logout({

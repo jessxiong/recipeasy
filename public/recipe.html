@@ -47,6 +47,16 @@
 
     <h2>Comments</h2>
     <div class="comments-container"></div>
+
+    <h3>Add a Comment</h3>
+    <form id="comment-form">
+      <label for="comment-text">Comment:</label><br>
+      <textarea id="comment-text" required></textarea><br>
+      <label for="comment-rating">Rating (1–5):</label><br>
+      <input type="number" id="comment-rating" min="1" max="5" required><br><br>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="comment-message"></div>
   </div>
 
   <!-- load recipe info from /recipes:id controller -->
@@ -85,6 +95,8 @@
           ? recipe.recipeAllergens.map(all => `<li>${all}</li>`).join('')
           : "<li>No allergens listed.</li>";
 
+          await loadComments(recipeId);
+
       } catch (err) {
         document.getElementById("recipe-name").innerText = "Error loading recipe.";
         console.error("Failed to load recipe:", err);
@@ -92,6 +104,69 @@
     }
 
     loadRecipe();
+
+    async function loadComments(recipeId) {
+    try {
+      const response = await fetch(`/api/comments?recipeID=${recipeId}`);
+      const comments = await response.json();
+
+      const commentsContainer = document.querySelector(".comments-container");
+      commentsContainer.innerHTML = "";
+
+      if (!comments || comments.length === 0) {
+        commentsContainer.innerHTML = "<p>No comments yet.</p>";
+        return;
+      }
+
+      comments.forEach(comment => {
+        const commentDiv = document.createElement("div");
+        commentDiv.classList.add("comment");
+        commentDiv.innerHTML = `
+          <p><strong>${comment.username || "Anonymous"}:</strong></p>
+          <p><strong>Rating:</strong> ${comment.rating}/5</p>
+          <p>${comment.text}</p>
+        `;
+        commentsContainer.appendChild(commentDiv);
+      });
+    } catch (err) {
+      console.error("Error loading comments:", err);
+    }
+  }
+
+  document.getElementById("comment-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const recipeId = getRecipeIdFromURL();
+    const text = document.getElementById("comment-text").value;
+    const rating = parseInt(document.getElementById("comment-rating").value);
+    const messageDiv = document.getElementById("comment-message");
+
+    try {
+      const res = await fetch(`/api/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: 'include',
+        body: JSON.stringify({ text, rating, recipeID: recipeId })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        messageDiv.innerText = "Comment posted successfully!";
+        document.getElementById("comment-form").reset();
+        await loadComments(recipeId);
+      } else {
+        messageDiv.innerText = data.error || "Failed to post comment.";
+      }
+    } catch (err) {
+      console.error("Error posting comment:", err);
+      messageDiv.innerText = "Error posting comment.";
+    }
+  });
+
+  loadRecipe();
+
+
   </script>
 </body>
 </html>
