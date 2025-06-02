@@ -9,7 +9,7 @@ async function loadCookbookInfo() {
    const cookbookId = getCookbookIdFromURL()
 
     if (!cookbookId) {
-        console.error( "Cookbook not found")
+        console.error( "Cookbook not found in db")
         return;
     }
 
