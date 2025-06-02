@@ -1,16 +1,17 @@
-async function init(){
+async function init() {
   document.getElementById("recipeForm").onsubmit = (e) => {
     e.preventDefault();
-    postRecipe();       
+    postRecipe();
   };
   loadRecipes();
 }
 
 // open & close popup form to add new recipe
-const popup = document.getElementById('recipePopup');
-document.getElementById('addRecipe').onclick = () => popup.style.display = 'flex';
-document.querySelector('.close-btn').onclick = () => popup.style.display = 'none';
-
+const popup = document.getElementById("recipePopup");
+document.getElementById("addRecipe").onclick = () =>
+  (popup.style.display = "flex");
+document.querySelector(".close-btn").onclick = () =>
+  (popup.style.display = "none");
 
 // adding ingredients & allergens to recipe
 function setupListInput({ inputId, addBtnId, listId, fieldId }) {
@@ -22,15 +23,15 @@ function setupListInput({ inputId, addBtnId, listId, fieldId }) {
   const values = [];
 
   function render() {
-    list.innerHTML = '';
+    list.innerHTML = "";
     values.forEach((val, idx) => {
-      const li = document.createElement('li');
+      const li = document.createElement("li");
       li.textContent = val;
 
-      const btn = document.createElement('button');
-      btn.textContent = 'x';
-      btn.type = 'button';
-      btn.style.marginLeft = '10px';
+      const btn = document.createElement("button");
+      btn.textContent = "x";
+      btn.type = "button";
+      btn.style.marginLeft = "10px";
       btn.onclick = () => {
         values.splice(idx, 1);
         render();
@@ -46,7 +47,7 @@ function setupListInput({ inputId, addBtnId, listId, fieldId }) {
     const val = input.value.trim();
     if (val) {
       values.push(val);
-      input.value = '';
+      input.value = "";
       render();
     }
   };
@@ -54,52 +55,90 @@ function setupListInput({ inputId, addBtnId, listId, fieldId }) {
 
 // setup both inputs
 setupListInput({
-  inputId: 'ingredientInput',
-  addBtnId: 'addIngredientBtn',
-  listId: 'ingredientList',
-  fieldId: 'ingredientsField'
+  inputId: "ingredientInput",
+  addBtnId: "addIngredientBtn",
+  listId: "ingredientList",
+  fieldId: "ingredientsField",
 });
 
 setupListInput({
-  inputId: 'allergenInput',
-  addBtnId: 'addAllergenBtn',
-  listId: 'allergenList',
-  fieldId: 'allergensField'
+  inputId: "allergenInput",
+  addBtnId: "addAllergenBtn",
+  listId: "allergenList",
+  fieldId: "allergensField",
 });
 
 // populate recipe cards in allRecipes from /recipes controller
-async function loadRecipes() {
+async function loadRecipes(filters = {}) {
   document.getElementById("recipe-cards").innerText = "Loading...";
-  let recipesJson = await fetchJSON(`api/recipes`);
 
-  let recipesHtml = recipesJson.map(recipeInfo => {
+  // search and filter logic
+  let url = "api/recipes";
+  let query = [];
+
+  // search
+
+  // filters
+  if (filters.ingredients && filters.ingredients.length) {
+    filters.ingredients.forEach((ingredient) => {
+      query.push("ingredients=" + encodeURIComponent(ingredient));
+    });
+  }
+ if (filters.allergens && filters.allergens.length) {
+    filters.allergens.forEach((allergen) => {
+      query.push("allergens=" + encodeURIComponent(allergen));
+    });
+  }
+  if (filters.privacy) {
+    query.push("privacy=" + encodeURIComponent(filters.privacy));
+  }
+
+  if (filters.searchQuery) {
+    query.push("searchQuery=" + encodeURIComponent(filters.searchQuery));
+  }
+
+  if (query.length) {
+    url += "?" + query.join("&");
+  }
+
+  let recipesJson = await fetchJSON(url);
+
+  let recipesHtml = recipesJson.map((recipeInfo) => {
     return `
     <a href="recipe.html?id=${recipeInfo._id}" class="recipe-card">
-      <h2>${recipeInfo.recipeName || 'Untitled Recipe'}</h2>
+      <h2>${recipeInfo.recipeName || "Untitled Recipe"}</h2>
       <img src="#" class="recipe-card-img"></img>
-      <p class="description">${recipeInfo.recipeDescription || ''}</p>
+      <p class="description">${recipeInfo.recipeDescription || ""}</p>
       <div class="ingredients">
         <h4>Ingredients:</h4>
         <ul>
-          ${recipeInfo.recipeIngredients ? 
-            recipeInfo.recipeIngredients.map(ing => `<li>${ing}</li>`).join('') 
-            : '<li>No ingredients listed</li>'}
+          ${
+            recipeInfo.recipeIngredients
+              ? recipeInfo.recipeIngredients
+                  .map((ing) => `<li>${ing}</li>`)
+                  .join("")
+              : "<li>No ingredients listed</li>"
+          }
         </ul>
       </div>
     </a>
     `;
   });
-  
-  document.getElementById("recipe-cards").innerHTML = recipesHtml.join('');
+
+  document.getElementById("recipe-cards").innerHTML = recipesHtml.join("");
 }
 
-async function postRecipe(){
+async function postRecipe() {
   let recipeName = document.getElementById("recipeName").value;
   let recipeDescription = document.getElementById("recipeDescription").value;
-  let recipeIngredients = JSON.parse(document.getElementById("ingredientsField").value || "[]") 
-  let recipeAllergens = JSON.parse(document.getElementById("allergensField").value || "[]");
+  let recipeIngredients = JSON.parse(
+    document.getElementById("ingredientsField").value || "[]"
+  );
+  let recipeAllergens = JSON.parse(
+    document.getElementById("allergensField").value || "[]"
+  );
   let recipePrivacy = document.getElementById("recipePrivacy").value;
-  let recipeImage = document.getElementById('coverPhoto').value; // gives img file name for now, change later
+  let recipeImage = document.getElementById("coverPhoto").value; // gives img file name for now, change later
 
   if (!recipeName.trim()) {
     document.getElementById("postStatus").innerText = "Recipe name is required";
@@ -115,12 +154,12 @@ async function postRecipe(){
         recipeIngredients,
         recipeAllergens,
         recipePrivacy,
-        image: recipeImage
-      }
+        image: recipeImage,
+      },
     });
     document.getElementById("postStatus").innerText = "Recipe added!";
     document.getElementById("recipeForm").reset();
-    popup.style.display = 'none';
+    popup.style.display = "none";
     loadRecipes();
   } catch (error) {
     document.getElementById("postStatus").innerText = "Error";
@@ -128,4 +167,30 @@ async function postRecipe(){
   }
 }
 
+// getting filter terms
+function getCurrentFilters() {
+  const ingredients = Array.from(
+    document.querySelectorAll('input[name="ingredients"]:checked')
+  ).map((input) => input.value);
 
+  const allergens = Array.from(
+    document.querySelectorAll('input[name="allergens"]:checked')
+  ).map((input) => input.value);
+
+  const privacy = document.querySelector('input[name="privacy"]:checked')?.value;
+
+  const searchQuery = document.getElementById("searchQuery").value.trim();
+
+  return { ingredients, allergens, privacy, searchQuery };
+}
+
+// Filter form submit
+document.getElementById("filterForm").onsubmit = async (e) => {
+  e.preventDefault();
+  loadRecipes(getCurrentFilters());
+};
+
+// Search input change
+document.getElementById("searchQuery").oninput = async (e) => {
+  loadRecipes(getCurrentFilters());
+};

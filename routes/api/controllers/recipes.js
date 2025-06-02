@@ -11,7 +11,32 @@ GET /
 */
 router.get('/', async (req, res) => {
   try{
-    let allRecipes = await req.models.Recipe.find()
+
+    let recipeFilter = {};
+
+    const {ingredients, allergens, privacy, searchQuery} = req.query;
+    console.log(ingredients);
+    console.log(allergens);
+    console.log(privacy);
+    console.log(searchQuery);
+
+    if (ingredients) {
+      recipeFilter.recipeIngredients = { $all: ingredients }
+    }
+
+     if (allergens) {
+      recipeFilter.recipeAllergens = { $all: allergens }
+    }
+
+    if (privacy) {
+      recipeFilter.recipePrivacy = privacy;
+    }
+
+    if (searchQuery) {
+      recipeFilter.recipeName = searchQuery;
+    }
+
+    let allRecipes = await req.models.Recipe.find(recipeFilter);
     let previews = await Promise.all(
       allRecipes.map(async (recipe) => {
         let recipeName = recipe.recipeName;
