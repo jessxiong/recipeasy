@@ -9,19 +9,23 @@ GET user
 */
 router.get('/userInfo', async function(req, res) {
     try{ 
+         //user must be logged in
+         if(!req.session.isAuthenticated){ 
+            return res.status(401).json({ status: "error", error: "Not logged in" })
+        }
 
-        if(req.session.isAuthenticated){
-            res.json({
+        const username = req.session.account.username
+        let allUserCookbooks = await models.Cookbook.findAll({username})
+        
+        res.json({
                 status: "loggedin",
                 userInfo: {
                     username: req.session.account.username,
                     userEmail: req.session.account.userEmail,                    
-                }
-            })
-        }
-        else{ //loggedout user gets no info returned
-            res.json({status: "loggedout"})
-        }
+                },
+                //userCookbooks: allUserCookbooks
+        })
+    
     }
     catch(error){ 
         console.log("Error getting user information: ", error)

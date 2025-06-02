@@ -1,67 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <title>recipeEASY</title>
-    <link rel="stylesheet" href="stylesheets/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="/img/favicon_logo.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>recipeEASY</title>
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Literata&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <link rel="icon" type="image/x-icon" href="/img/favicon_logo.ico">
+
 </head>
 <body>
-    <div class="header">
-        <h1>recipeEASY</h1>
-        <div class="auth">
-            <a href="#">Sign In</a>
-            <a href="#">Create Account</a>
-        </div>
+  <div class="header">
+    <h1>recipeEASY</h1>
+    <div class="auth">
+      <a href="#">Sign In</a>
+      <a href="#">Create Account</a>
     </div>
-    <nav class="nav">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="allRecipes.html">All Recipes</a></li>
-            <li><a href="cookbook.html">Cookbook</a></li>
-        </ul>
-    </nav>
-    <div class="content">
-        <div class="content-header">
-            <h1>COOKBOOK</h1>
-            <div class="search-container">
-                <input type="text" placeholder="Search for recipe name...">
-            </div>
-        </div>
-        <p class="subheading">Create cookbooks to organize your recipes!</p></br>
+  </div>
 
-        <button id="createCookbook" class="button">Create New Cookbook</button>
+  <nav class="nav">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="allRecipes.html">All Recipes</a></li>
+      <li><a href="allCookbooks.html">Cookbook</a></li>
+    </ul>
+  </nav>
 
-        <!-- popup form to add new cookbook -->
-        <div id="cookbookPopup" class="cookbookPopup">
-            <div class="popupContent">
-                <span class="close-btn2">&times;</span>
-                <h2>Create New Cookbook</h2>
-                <form id="cookbookForm">
-                    <label>Cookbook Title:<input type="text" id="cookbookTitle" required placeholder="e.g. Favorite Recipes"></label>
-                    <label>Description:<textarea id="recipeDescription" required placeholder="Write a brief description of the cookbook..."></textarea></label>
-
-                    <label>
-                        Privacy:
-                        <select id="cookbookPrivacy" required>
-                            <option value="public">Public</option>
-                            <option value="private">Private</option>
-                        </select>
-                    </label>
-     
-                    <p id="postStatus" style="color: red;"></p>
-                    <button type="submit" class="button">Create Cookbook</button>
-                </form>
-            </div>
-        </div>
-
-        <div id="cookbook-cards" class="cookbook-cards"></div>
-
+  <div class="content">
+    <div class="content-header">
+      <h1 id="cookbook-title">Loading Cookbook...</h1>
     </div>
-    <script src="javascripts/utils.js"></script>
-    <script src="javascripts/cookbook.js"></script>
+</div>
+
+<body>
+    <main>
+      <h1 id="cookbook-title">Loading...</h1>
+      <h2 id="cookbook-description" class="subheader"></h2>
+      <p id="cookbook-owner" class="user-link"></p>
+  
+      <section id="recipe-cards" class="recipe-grid">
+        <!-- Recipe cards will be inserted here -->
+      </section>
+    </main>
+  
+    <script src="/cookbookInfo.js"></script>
+
 </body>
 </html>
