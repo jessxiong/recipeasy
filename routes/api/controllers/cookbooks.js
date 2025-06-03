@@ -41,7 +41,7 @@ router.get("/:id", async (req, res) => {
 });
 
 /*
-MAYBE DELETE!!!!
+ DELETE IF users/userInfo works well!!!!
 GET /myCookbooks
     * function: finds all recipes for given userId
     * returns: json of users cookbook
