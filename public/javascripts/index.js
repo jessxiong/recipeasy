@@ -1,7 +1,5 @@
 async function init() {
-  console.log("init called");
   await updateAuthUI();
-  //updateAuthUI();
   document.getElementById("recipeForm").onsubmit = (e) => {
     e.preventDefault();
     postRecipe();
