@@ -14,11 +14,16 @@ router.get('/', async (req, res) => {
 
     let recipeFilter = {};
 
-    const {ingredients, allergens, privacy, searchQuery} = req.query;
+    const {ingredients, allergens, privacy, searchQuery, ids} = req.query;
     console.log(ingredients);
     console.log(allergens);
     console.log(privacy);
     console.log(searchQuery);
+
+    if (ids) {
+      const idArray = Array.isArray(ids) ? ids : [ids];
+      recipeFilter._id = { $in: idArray };
+    }
 
     if (ingredients) {
       recipeFilter.recipeIngredients = { $all: ingredients }
@@ -106,7 +111,7 @@ router.post('/', async (req, res) => {
       const ingredients = req.body.recipeIngredients
       const recipeAllergens = req.body.recipeAllergens || []
       const instructions = req.body.recipeInstructions
-      let image = req.body.image || ""
+      // let image = req.body.image || ""
 
       const newRecipe = new models.Recipe({
         recipeName: name,
@@ -116,9 +121,9 @@ router.post('/', async (req, res) => {
         recipeIngredients: ingredients,
         recipeInstructions: instructions,
         recipeAllergens: recipeAllergens,
-        image: image,
-        views: 0,
-        likes: 0,
+        // image: image,
+        // views: 0,
+        // likes: 0,
         comments: []
       })
       console.log("Saving recipe:", newRecipe);

@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="stylesheets/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Literata&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
   <link rel="icon" type="image/x-icon" href="/img/favicon_logo.ico">
 
 </head>
@@ -32,9 +31,6 @@
     <div class="content-header">
       <h1 id="recipe-name">Loading Recipe...</h1>
     </div>
-
-    <span class="material-symbols-outlined heart">favorite</span><span id="recipe-likes"></span> &nbsp;&nbsp; 
-    <span class="material-symbols-outlined">visibility</span><span id="recipe-views"></span>
 
     <h2>Summary</h2>
     <p id="recipe-summary">Loading summary...</p>
@@ -76,9 +72,6 @@
       try {
         const response = await fetch(`/api/recipes/${recipeId}`);
         const recipe = await response.json();
-
-        document.getElementById("recipe-likes").innerText = recipe.likes || "0";
-        document.getElementById("recipe-views").innerText = recipe.views || "0";
 
         document.getElementById("recipe-name").innerText = recipe.recipeName || "Untitled Recipe";
         document.getElementById("recipe-summary").innerText = recipe.recipeDescription || "No description available.";

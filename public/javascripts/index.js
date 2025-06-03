@@ -110,7 +110,6 @@ async function loadRecipes(filters = {}) {
     return `
     <a href="recipe.html?id=${recipeInfo._id}" class="recipe-card">
       <h2>${recipeInfo.recipeName || "Untitled Recipe"}</h2>
-      <img src="#" class="recipe-card-img"></img>
       <p class="description">${recipeInfo.recipeDescription || ""}</p>
       <div class="ingredients">
         <h4>Ingredients:</h4>
@@ -141,7 +140,7 @@ async function postRecipe() {
     document.getElementById("allergensField").value || "[]"
   );
   let recipePrivacy = document.getElementById("recipePrivacy").value;
-  let recipeImage = document.getElementById("coverPhoto").value; // gives img file name for now, change later
+  // let recipeImage = document.getElementById("coverPhoto").value; 
 
   if (!recipeName.trim()) {
     document.getElementById("postStatus").innerText = "Recipe name is required";
@@ -157,7 +156,7 @@ async function postRecipe() {
         recipeIngredients,
         recipeAllergens,
         recipePrivacy,
-        image: recipeImage,
+        // image: recipeImage,
       },
     });
     document.getElementById("postStatus").innerText = "Recipe added!";

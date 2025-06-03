@@ -51,11 +51,11 @@ router.get("/myCookbooks", async (req, res) => {
     if (!req.session.isAuthenticated) {
       return res.status(401).json({ status: "error", error: "not logged in" });
     }
-    const username = req.body.username;
-    let userCookbooks = await models.Cookbook.findAll({ username });
+    const username = req.session.account.username;
+    let userCookbooks = await models.Cookbook.find({ cookbookOwner: username });
 
     //logged in users will always have at least one cookbook
-    if (!userCookbooks) {
+    if (userCookbooks.length === 0) {
       userCookbooks = new models.Cookbook({
         cookbookOwner: username,
         title: "Favorites",
@@ -119,7 +119,7 @@ router.post("/addRecipe", async (req, res) => {
     if (!req.session.isAuthenticated) {
       return res.status(401).json({ status: "error", error: "Not logged in" });
     }
-    const userId = req.body.userId;
+    const userId = req.session.account.username;
     const cookbookId = req.body.cookbookId;
     const recipeId = req.body.recipeId;
 

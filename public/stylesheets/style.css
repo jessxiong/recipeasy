@@ -5,6 +5,7 @@ body {
 }
 a {
     text-decoration: none;
+    color: black;
 }
 
 /* header */
@@ -110,10 +111,6 @@ a {
     padding: 10px;
     border: 1px solid #ccc;
 }
-.recipe-card-img {
-    width: 280px;
-    height: auto;
-}
 .comments-container {
     /* temp styling */
     width: 100%;
@@ -125,6 +122,9 @@ a {
     flex-wrap: wrap;
     align-items: space-between;
     margin-top: 20px;
+}
+.homepage-content {
+    margin-top: 200px;
 }
 
 /* filter */
@@ -161,7 +161,7 @@ a {
 }
   
 /* recipe/cookbook popup form */
-.recipePopup, .cookbookPopup{
+.recipePopup, .cookbookPopup, .popup{
     position: fixed;
     top: 0;
     left: 0;
@@ -192,9 +192,11 @@ a {
     display: block;
     margin: 10px 0;
 }
-.popupContent input, .popupContent textarea {
+.popupContent input[type="text"],
+.popupContent input[type="number"],
+.popupContent input[type="email"],
+.popupContent textarea {
     width: 100%;
-    margin-top: 4px;
 }
 .button{
     background-color: #C5CF5E;

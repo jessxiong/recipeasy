@@ -33,9 +33,9 @@ const recipeSchema = new mongoose.Schema({
     recipePrivacy: String,
     recipeInstructions: String,
     allergens: [String],
-    views: Number,
-    likes: Number,
-    image: String
+    // views: Number,
+    // likes: Number,
+    // image: String
 });
 
 models.Recipe = mongoose.model('Recipe', recipeSchema);
