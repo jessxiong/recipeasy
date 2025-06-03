@@ -138,6 +138,7 @@ async function postRecipe() {
     document.getElementById("allergensField").value || "[]"
   );
   let recipePrivacy = document.getElementById("recipePrivacy").value;
+  let recipeInstructions = document.getElementById("recipeInstructions").value;
   // let recipeImage = document.getElementById("coverPhoto").value; 
 
   if (!recipeName.trim()) {
@@ -154,6 +155,7 @@ async function postRecipe() {
         recipeIngredients,
         recipeAllergens,
         recipePrivacy,
+        recipeInstructions
         // image: recipeImage,
       },
     });
