@@ -14,9 +14,9 @@ router.get('/userInfo', async function(req, res) {
          if(!req.session.isAuthenticated){ 
             return res.status(401).json({ status: "error", error: "Not logged in" })
         }
-        //might be . . .
-        // const userId = req.session.account.oid
-        const userId = req.session.account.userId
+      
+         const userId = req.session.account.oid
+        //const userId = req.session.account.userId
         const user = await models.User.findById(userId);
         //const username = req.session.account.username
         let allUserCookbooks = await models.Cookbook.find({ cookbookOwner: userId })
