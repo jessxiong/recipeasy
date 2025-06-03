@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="stylesheets/style.css">
     <link rel="icon" type="image/x-icon" href="/img/favicon_logo.ico">
 </head>
-<body>
+<body onload="init()">
     <div class="header">
         <h1>recipeEASY</h1>
         <div class="auth">
             <a id="signInLink" href="/signin">Sign In</a>
-            <a id="signOutLink" href="/signout">Sign Out</a>
+            <a id="signOutLink" href="/signout" style="display:none;">Sign Out</a>
         </div>
     </div>
     <nav class="nav">
@@ -42,5 +42,7 @@
             </a>
         </div>
     </div>
+    <script src="javascripts/utils.js"></script>
+    <script src="javascripts/index.js"></script>
 </body>
 </html>
