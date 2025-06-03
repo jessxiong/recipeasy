@@ -79,7 +79,6 @@ app.get('/signin', (req, res, next) => {
 
   app.get('/api/session', (req, res) => {
     if (req.session && req.session.isAuthenticated) {
-      // You can adjust the response based on your session data structure
       res.json({ 
         isAuthenticated: true,
         username: req.session.account?.username || "Unknown user"
