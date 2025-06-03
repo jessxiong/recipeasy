@@ -48,9 +48,29 @@
         </form>
       </div>
     </div>
+    </div></br>
+    <button id="addRecipetoBook" class="button">Add Recipes</button>
+
+    <!-- popup form to add recipes to cookbook -->
+    <div id="add-recipe-popup" class="popup" style="display: none;">
+      <div class="popupContent">
+        <span class="close-btn">&times;</span>
+        <h2>Select Recipes to Add</h2>
+        <form id="add-recipe-form">
+
+          <div id="recipe-options" class="recipe-options">
+            <!-- Checkboxes for recipes will be inserted here -->
+          </div>
+          <button type="submit" class="button addbtn">Add Selected Recipes</button>
+        </form>
+      </div>
+    </div>
 
     <h2 id="cookbook-description" class="subheader"></h2>
     <p id="cookbook-user" class="user-link"></p>
+    <section id="recipe-cards" class="recipe-cards
+    "> </section>
+  </div>
     <section id="recipe-cards" class="recipe-cards
     "> </section>
   </div>
