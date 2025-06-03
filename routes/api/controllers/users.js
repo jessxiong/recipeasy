@@ -43,7 +43,7 @@ router.get('/userInfo', async function(req, res) {
                 status: "loggedin",
                 userInfo: {
                     username: req.session.account.username,
-                    userEmail: req.session.account.userEmail                   
+                    userId: userId                  
                 },
                 userCookbooks: user.cookbooks
         })
