@@ -15,7 +15,19 @@ router.get('/userInfo', async function(req, res) {
         }
 
         const username = req.session.account.username
+
+        //auth users always will have at least one cookbook
         let allUserCookbooks = await models.Cookbook.findAll({username})
+        if (!allUserCookbooks) {
+            allUserCookbooks = new models.Cookbook({
+              cookbookOwner: username,
+              title: "Favorites",
+              cookbookPrivacy: "private",
+              lists: [],
+            });
+            await allUserCookbooks.save();
+          }
+      
         
         res.json({
                 status: "loggedin",
@@ -23,7 +35,7 @@ router.get('/userInfo', async function(req, res) {
                     username: req.session.account.username,
                     userEmail: req.session.account.userEmail,                    
                 },
-                //userCookbooks: allUserCookbooks
+                userCookbooks: allUserCookbooks
         })
     
     }

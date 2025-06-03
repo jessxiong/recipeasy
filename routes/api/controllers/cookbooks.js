@@ -41,11 +41,12 @@ router.get("/:id", async (req, res) => {
 });
 
 /*
+MAYBE DELETE!!!!
 GET /myCookbooks
     * function: finds all recipes for given userId
     * returns: json of users cookbook
     * error: json errors  
-*/
+
 router.get("/myCookbooks", async (req, res) => {
   try {
     if (!req.session.isAuthenticated) {
@@ -71,7 +72,7 @@ router.get("/myCookbooks", async (req, res) => {
     console.log(`Error retrieving username ${username} cookbooks: ${error}`);
     res.status(500).json({ status: "error", error: error });
   }
-});
+}); */
 
 /*
 POST cookbook 

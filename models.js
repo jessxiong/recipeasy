@@ -7,7 +7,7 @@ await mongoose.connect("mongodb+srv://client:info441clientpassword@recipeasy.zfa
 const userSchema = new mongoose.Schema({
     username: String,
     userDescription: String,
-    favorites: [{type: mongoose.Schema.Types.ObjectId, ref: "Recipe"}],
+    cookbooks: [{type: mongoose.Schema.Types.ObjectId, ref: "Cookbook"}],
     allergens: [String]
 
 });
@@ -46,8 +46,6 @@ const cookbookSchema = new mongoose.Schema({
     description: String,
     cookbookPrivacy: String,
     lists: [{
-        //listName: String,
-        //listPrivacy: String,
         recipes: [{type: mongoose.Schema.Types.ObjectId, ref: "Recipe"}]
     }]
 });
