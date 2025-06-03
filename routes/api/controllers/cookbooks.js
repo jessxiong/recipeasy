@@ -85,10 +85,11 @@ router.post("/", async (req, res) => {
     if (!req.session.isAuthenticated) {
       return res.status(401).json({ status: "error", error: "Not logged in" });
     }
-
+    
     const title = req.body.cookbookTitle;
     const description = req.body.cookbookDescription;
-    const userId = req.body.userId;
+    //const userId = req.body.userId;
+    const userId = req.session.account.oid
     const privacy = req.body.cookbookPrivacy;
 
     let newCookbook = new models.Cookbook({
