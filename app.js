@@ -77,6 +77,22 @@ app.get('/signin', (req, res, next) => {
   
   app.use(authProvider.interactionErrorHandler());
 
+  app.get('/api/session', (req, res) => {
+    if (req.session && req.session.isAuthenticated) {
+      // You can adjust the response based on your session data structure
+      res.json({ 
+        isAuthenticated: true,
+        username: req.session.account?.username || "Unknown user"
+      });
+    } else {
+      res.status(401).json({ 
+        isAuthenticated: false,
+        error: "Not authenticated"
+      });
+    }
+  });
+  
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:3000`);

@@ -1,4 +1,7 @@
 async function init() {
+  console.log("init called");
+  await updateAuthUI();
+  //updateAuthUI();
   document.getElementById("recipeForm").onsubmit = (e) => {
     e.preventDefault();
     postRecipe();
@@ -194,3 +197,23 @@ document.getElementById("filterForm").onsubmit = async (e) => {
 document.getElementById("searchQuery").oninput = async (e) => {
   loadRecipes(getCurrentFilters());
 };
+
+async function updateAuthUI() {
+  try {
+    const res = await fetch('/api/session');
+    if (!res.ok) throw new Error('Not authenticated');
+
+    const data = await res.json();
+
+    if (data.isAuthenticated) {
+      document.getElementById("signInLink").style.display = "none";
+      document.getElementById("signOutLink").style.display = "inline";
+    } else {
+      document.getElementById("signInLink").style.display = "inline";
+      document.getElementById("signOutLink").style.display = "none";
+    }
+  } catch (err) {
+    document.getElementById("signInLink").style.display = "inline";
+    document.getElementById("signOutLink").style.display = "none";
+  }
+}
