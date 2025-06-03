@@ -7,6 +7,7 @@ GET user
     * returns: username + user info
     * error: json errors  
 */
+//DELETE THIS COMMENT IN FINAL: test out with api call on local host - http://localhost:3000/api/users/userInfo
 router.get('/userInfo', async function(req, res) {
     try{ 
          //user must be logged in
