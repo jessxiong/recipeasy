@@ -3,7 +3,6 @@ function getCookbookIdFromURL() {
     return params.get('id');
   }
   
-
 //Loads information about a specific cookbook
 async function loadCookbookInfo() {
    const cookbookId = getCookbookIdFromURL()
@@ -19,10 +18,11 @@ async function loadCookbookInfo() {
             console.log(`issue getting cookbook id in`)
         }
         const cookbook = await response.json();
+        console.log(cookbook);
 
         document.getElementById("cookbook-title").innerText = cookbook.title
         document.getElementById("cookbook-description").innerText = cookbook.description || ""
-        document.getElementById("cookbook-user").innerText = cookbook.cookbookOwner
+        // document.getElementById("cookbook-user").innerText = cookbook.cookbookOwner
         
         if(cookbook.recipeIds?.length){
             loadRecipes({ recipeIds: cookbook.recipeIds })

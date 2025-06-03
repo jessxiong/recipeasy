@@ -58,5 +58,31 @@ async function loadCookbooks() {
       console.error('Error loading cookbooks:', error);
     }
   }
-  
+
+  async function postCookbook() {
+  let cookbookTitle = document.getElementById("cookbookTitle").value;
+  let cookbookDescription = document.getElementById("cookbookDescription").value;
+  let cookbookPrivacy = document.getElementById("cookbookPrivacy").value;
+
+  try {
+    await fetchJSON(`api/cookbook`, {
+      method: "POST",
+      body: {
+        cookbookTitle,
+        cookbookDescription,
+        cookbookPrivacy
+      },
+    });
+    loadCookbooks();
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+document.getElementById("cookbookForm").onsubmit = async (e) => {
+  e.preventDefault();
+  postCookbook();
+};
+
   loadCookbooks()
