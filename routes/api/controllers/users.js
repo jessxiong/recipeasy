@@ -15,21 +15,22 @@ router.get('/userInfo', async function(req, res) {
             return res.status(401).json({ status: "error", error: "Not logged in" })
         }
 
-        const username = req.session.account.username
-
+        const userId = req.session.account.userId
+        const user = await models.User.findById(userId);
+        //const username = req.session.account.username
+        let allUserCookbooks = await models.Cookbook.find({ cookbookOwner: userId })
         //auth users always will have at least one cookbook
-        //one of these two lines of code should work, I'm not positive which though!
-        //let allUserCookbooks = await models.Cookbook.findAll({cookbookOwner: username})
-        let allUserCookbooks = await models.Cookbook.findAll({username})
-
-        if (!allUserCookbooks) {
-            allUserCookbooks = new models.Cookbook({
-              cookbookOwner: username,
+        if (users.cookbooks.length === 0) {
+            favoritesCookbook = new models.Cookbook({
+              cookbookOwner: userId,
               title: "Favorites",
               cookbookPrivacy: "private",
               lists: [],
             });
-            await allUserCookbooks.save();
+            await favoritesCookbook.save();
+            user.cookbooks.push(favoritesCookbook._id)
+            await user.save()
+            allUserCookbooks = [favoritesCookbook]
           }
       
         
@@ -37,7 +38,7 @@ router.get('/userInfo', async function(req, res) {
                 status: "loggedin",
                 userInfo: {
                     username: req.session.account.username,
-                    userEmail: req.session.account.userEmail,                    
+                    userEmail: req.session.account.userEmail                   
                 },
                 userCookbooks: allUserCookbooks
         })
