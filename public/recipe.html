@@ -41,6 +41,9 @@
     <h2>Allergens</h2>
     <ul id="recipe-allergens"></ul>
 
+    <h2>Instructions</h2>
+    <p id="recipe-instructions"></p>
+
     <h2>Comments</h2>
     <div class="comments-container"></div>
 
@@ -88,7 +91,10 @@
           ? recipe.recipeAllergens.map(all => `<li>${all}</li>`).join('')
           : "<li>No allergens listed.</li>";
 
-          await loadComments(recipeId);
+        // Instructions
+        document.getElementById("recipe-instructions").innerText = recipe.recipeInstructions || "No instructions available.";
+
+        await loadComments(recipeId);
 
       } catch (err) {
         document.getElementById("recipe-name").innerText = "Error loading recipe.";
@@ -114,7 +120,7 @@
       comments.forEach(comment => {
         const commentDiv = document.createElement("div");
         commentDiv.classList.add("comment");
-        commentDiv.innerHTML = `
+        commentDiv.innerHTML = ` 
           <p><strong>${comment.username || "Anonymous"}:</strong></p>
           <p><strong>Rating:</strong> ${comment.rating}/5</p>
           <p>${comment.text}</p>
