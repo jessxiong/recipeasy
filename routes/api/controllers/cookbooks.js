@@ -8,7 +8,7 @@ GET /
     * returns: json of public cookbooks
     * error: json errors  
 */
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try{
         const allCookbooks =  await models.Cookbook.find({cookbookPrivacy: "public"})
        //await models.Cookbook.find({cookbookPrivacy: "public"}).select("title lists") - less info displayed?
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ status: "error", error: error })
     }
 })
-
+  
 /*
 GET /myCookbooks
     * function: finds all recipes for given userId

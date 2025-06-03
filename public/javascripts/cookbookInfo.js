@@ -14,7 +14,7 @@ async function loadCookbookInfo() {
     }
 
     try {
-        const response = await fetch(`/api/cookbook?_id=${cookbookId}`);
+        const response = await fetch(`/api/cookbook/${cookbookId}`);
         if(!response.ok){
             console.log(`issue getting cookbook id in`)
         }
