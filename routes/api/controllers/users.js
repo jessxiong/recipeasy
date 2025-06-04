@@ -35,7 +35,7 @@ router.get('/userInfo', async function(req, res) {
             await user.save()
             await user.populate('cookbooks');
 
-           // allUserCookbooks = [favoritesCookbook]
+            user.cookbooks = [favoritesCookbook]
           }
       
         
