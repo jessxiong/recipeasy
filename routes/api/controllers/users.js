@@ -21,7 +21,10 @@ router.get('/userInfo', async function(req, res) {
         //const username = req.session.account.username
 
         const allUserCookbooks = await models.Cookbook.find({cookbookOwner: userId})
-
+        if(!allUserCookbooks){
+            console.log("error retrieving users cookbooks")
+            res.status(500).json({status: "users cookbook retrieval error"}) 
+         }
         //auth users always will have at least one cookbook
         if (allUserCookbooks.length === 0) {
             favoritesCookbook = new models.Cookbook({
