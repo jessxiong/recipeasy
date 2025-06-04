@@ -19,7 +19,7 @@ router.get('/userInfo', async function(req, res) {
         //const userId = req.session.account.userId
         //const user = await models.User.findById(userId);
         //const username = req.session.account.username
-        //let allUserCookbooks = await models.Cookbook.find({ cookbookOwner: userId })
+
         const allUserCookbooks = await models.Cookbook.find({cookbookOwner: userId})
 
         //auth users always will have at least one cookbook
@@ -33,8 +33,6 @@ router.get('/userInfo', async function(req, res) {
             await favoritesCookbook.save();
             allUserCookbooks.push(favoritesCookbook._id)
             await allUserCookbooks.save()
-            await user.populate('cookbooks');
-
             user.cookbooks = [allUserCookbooks]
           }
       
