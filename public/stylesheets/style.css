@@ -102,14 +102,14 @@ a {
     font-size: 24px;
     font-weight: 500;
 }
-.recipe-cards {
+.recipe-cards, .cookbook-cards {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     flex: 1 1 600px; 
     min-width: 300px;
 }
-.recipe-card {
+.recipe-card, .cookbook-card {
     width: 300px;
     height: 400px;
     padding: 10px;
