@@ -6,11 +6,11 @@ router.get('/', async (req, res) => {
         if(!req.session.isAuthenticated){ 
             return res.status(401).json({ status: "error", error: "not logged in" })
         }
-        const username = req.body.username
+        const username = req.session.account.username
         let userInfo = await models.User.findOne({username})
         //in case user has no userInfo obj yet
         if(!userInfo){
-            userInfo = new models.UserInfo({username: username})
+            userInfo = new models.User({username: username})
             await userInfo.save()
         }
         res.json(userInfo)
@@ -45,7 +45,6 @@ router.post('/', async (req, res) => {
             
             await favoritesCookbook.save();
       
-
             if (req.session.username !== reqUsername) {
                 return res.status(403).json({ error: "Unauthorized to update this user" });
               }
@@ -58,6 +57,7 @@ router.post('/', async (req, res) => {
                 { new: true, upsert: true }
             );
             await updatedUserInfo.save()
+
             res.json({ status: "success", updatedUserInfo})
         } 
         else {
