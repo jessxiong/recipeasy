@@ -8,7 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/img/favicon_logo.ico">
-
+    <script src="javascripts/userProfile.js"></script>
+    <script src="javascripts/utils.js"></script>
+    <script src="javascripts/index.js"></script>
 </head>
 <body onload="init()">
     <div class="header">
@@ -23,32 +25,48 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="allRecipes.html">All Recipes</a></li>
             <li><a href="allCookbooks.html">Cookbooks</a></li>
+            <li><a href="userProfile.html">User Profile</a></li>
         </ul>
     </nav>
+    <div class="content">
+        <div class="content-header">
+            <h1>USER INFO</h1>
+            </div>
 
-    <h1>Hi <span id="username-span"></span></h2>
-    <div id="user-info-div">
-      <h3>User Info:</h3>
-      <p>Username: </p><span id="username-display"></span>
-      <p></p><span id="userDescription-display"></span>
-      <p>Allergies: </p><span id="allergens-display"></span>
-      <p>Personal Cookbooks: </p><span id="cookbooks-display"></span>
-      <br>
-      <button onclick="loadUserInfo()">refresh</button>
-    </div>
-    <br>
-    <div id="user_info_new_div" class="d-none">
-      <h3>Update User Info:</h3>
-      <label>Username: <input type="text" id="username-input"></label><br>
-      <label>Personal Bio: <input type="text" id="userDescription-input"></label><br>
-      <label>Allergies: <input type="text" id="allergens-input"></label><br>
-      <br>
-      <button onclick="saveUserInfo()">Save User Info</button>
-    </div>
-    <br><br>
-    <h2>All Posts</h2>
-    <button onclick="loadUserInfo()">refresh</button>
-    <div id="posts_box"></div>
+        <button id="updateUserInfo" class="button">Update Your Info</button>
+        <div id="user_info_new_div" class="d-none">
+            <div id="userPopup" class="userPopup">
+                <div class="popupContent">
+                    <span class="close-btn">&times;</span>
+                    <h2>Update User Info</h2>
+                    <form id="userForm">
+                        <label>User Bio:<textarea id="userDescription-input" required placeholder="Write a brief user bio..."></textarea></label>
+                        <label>
+                            Allergies:
+                            <input type="text" id="allergens-input" placeholder="e.g. eggs, dairyr">
+                            <button type="button" id="addAllergensBtn" class="addbtn">Add</button>
+                        </label>
+                        <ul id="allergenList"></ul>
+                        <p id="postStatus" style="color: red;"></p>
+                        <button type="submit" class="button">Update Personal Info</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+        <div id="user-info-div">
+            <h3>User Info:</h3>
+            <p>Username: </p><span id="username-display"></span>
+            <p></p><span id="userDescription-display"></span>
+            <p>Allergies: </p><span id="allergens-display"></span>
+            <br>
+            <button onclick="loadUserInfo()">refresh</button>
+              
+        </div>
+        <br>
+        <br><br>
+
+</div>
 
 </body>
 </html>

@@ -158,8 +158,8 @@ a {
     padding-bottom: 15px;
 }
   
-/* recipe/cookbook popup form */
-.recipePopup, .cookbookPopup, .popup{
+/* recipe/cookbook/user popup form */
+.recipePopup, .cookbookPopup, .popup, .userPopup{
     position: fixed;
     top: 0;
     left: 0;

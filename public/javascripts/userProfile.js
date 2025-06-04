@@ -1,7 +1,14 @@
 async function init(){
-    await loadIdentity();
     loadUserInfo();
 } 
+
+/*
+open & close popup form to update user info
+*/
+const userPopup = document.getElementById('userPopup');
+document.getElementById('updateUserInfo').onclick = () => userPopup.style.display = 'flex';
+document.querySelector('.close-btn').onclick = () => userPopup.style.display = 'none';
+
 
 /*
 saveUserInfo
@@ -20,9 +27,8 @@ async function saveUserInfo(){
          document.getElementById("user_info_new_div").classList.add("d-none");
      } 
      // gets user inputs 
-     let newUsername = document.getElementById(`username-input`).value;
      let newAllergies = document.getElementById(`allergens-input`).value;
-     let newDesc =  document.getElementById(`userDescritpion-input`).value;
+     let newDesc =  document.getElementById(`userDescription-input`).value;
      
      //update existing lists of allergens
     let existingUserInfo = await fetchJSON(`api/users?user=${encodeURIComponent(username)}`);
@@ -33,7 +39,7 @@ async function saveUserInfo(){
      let responseJson = await fetchJSON(`api/users?user=${encodeURIComponent(username)}`, {
          method: "POST",
          body: {
-             username: newUsername,
+             username: username,
              userDescription: newDesc,
              allergens: combinedAllergens
          }
@@ -65,8 +71,7 @@ loadUserInfo
         if(!responseJson.ok){ 
             console.log("error fetching and loading userInfo json")
         }
-        document.getElementById(`username-display`).value = responseJson.username || username
-        document.getElementById(`username-display`).innerHTML = responseJson.username ||username
+        
         document.getElementById(`userDescription-display`).value = responseJson.userDescription || ""
         document.getElementById(`userDescription-display`).innerHTML = responseJson.userDescription || ""
         document.getElementById(`allergens-display`).value = responseJson.allergens || ""
@@ -75,6 +80,7 @@ loadUserInfo
     }catch(error){
         console.log(`client side error using loadUserInfo(): ${error}`)
     }
+
     loadUserCookbooks(username)
     loadUserRecipes(username)
 }
@@ -82,19 +88,68 @@ loadUserInfo
  /*
 loadUserRecipes
     * function: gets json info of recipes given username has posted + displays on profile page
+    * error: displays errors loading + retrieving recipe info
 */
 async function loadUserRecipes(username){
-    document.getElementById("recipe-cards").innerText = "Loading...";
-    let recipesJson = await fetchJSON(`api/recipes?username=${encodeURIComponent(username)}`);
-  
+    try{
+        document.getElementById("recipe-cards").innerText = "Loading...";
+        let recipesJson = await fetchJSON(`api/recipes?username=${encodeURIComponent(username)}`);
+        let recipesHTML = recipesJson.map((recipeInfo) => {
+            return `
+            <h1>${username}'s Recipes:</h1>
+            <a href="recipe.html?id=${recipeInfo._id}" class="recipe-card">
+            <h2>${recipeInfo.recipeName || "Untitled Recipe"}</h2>
+            <p class="description">${recipeInfo.recipeDescription || ""}</p>
+            <div class="ingredients">
+                <h4>Ingredients:</h4>
+                <ul>
+                ${
+                    recipeInfo.recipeIngredients
+                    ? recipeInfo.recipeIngredients
+                        .map((ing) => `<li>${ing}</li>`)
+                        .join("")
+                    : "<li>No ingredients listed</li>"
+                }
+                </ul>
+            </div>
+            </a>
+            `;
+        });
+
+        document.getElementById("recipe-cards").innerHTML = recipesHTML;
+    }
+    catch (error) {
+        container.innerText = `Failed to load recipes for ${username}`
+        console.error(`Error loading cookbooks for ${username}: `, error);
+  }
 }
 
  /*
 loadUserCookbooks
     * function: gets json info of cookbooks belonging to username + displays on profile page
+    * Errors: 
 */
 async function loadUserCookbooks(username){
-    document.getElementById("cookbook-cards").innerText = "Loading...";
-    let cookbookJson = await fetchJSON(`api/cookbook?username=${encodeURIComponent(username)}`);
-  
+    try{
+        document.getElementById("cookbook-cards").innerText = "Loading...";
+        let cookbookJson = await fetchJSON(`api/cookbook?username=${encodeURIComponent(username)}`);
+        container.innerHTML =  cookbookJson.map(cookbook => `
+            <h1>${username}'s Cookbooks:</h1>
+            <a href="cookbook.html?id=${encodeURIComponent(cookbook._id)}" class="cookbook-card">
+            <h2>${cookbook.title || 'Untitled Cookbook'}</h2>
+            <p>${cookbook.description || ''}</p>
+            <p><em>Owner: ${cookbook.cookbookOwner || 'Unknown'}</em></p>
+            </a>
+        `).join('');
+    }
+    catch (error) {
+        container.innerText = `Failed to load cookbooks for ${username}`
+        console.error(`Error loading cookbooks for ${username}: `, error);
+  }
 }
+
+document.getElementById("userForm").onsubmit = async (e) => {
+    e.preventDefault();
+    await saveUserInfo();
+    userPopup.style.display = 'none';
+  };
