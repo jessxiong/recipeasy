@@ -20,10 +20,10 @@ router.get('/userInfo', async function(req, res) {
         //const user = await models.User.findById(userId);
         //const username = req.session.account.username
         //let allUserCookbooks = await models.Cookbook.find({ cookbookOwner: userId })
-        const user = await models.User.findById(userId).populate('cookbooks');
+        const allUserCookbooks = await models.Cookbook.find({cookbookOwner: userId})
 
         //auth users always will have at least one cookbook
-        if (user.cookbooks.length === 0) {
+        if (allUserCookbooks.length === 0) {
             favoritesCookbook = new models.Cookbook({
               cookbookOwner: userId,
               title: "Favorites",
@@ -31,11 +31,11 @@ router.get('/userInfo', async function(req, res) {
               lists: [],
             });
             await favoritesCookbook.save();
-            user.cookbooks.push(favoritesCookbook._id)
-            await user.save()
+            allUserCookbooks.push(favoritesCookbook._id)
+            await allUserCookbooks.save()
             await user.populate('cookbooks');
 
-            user.cookbooks = [favoritesCookbook]
+            user.cookbooks = [allUserCookbooks]
           }
       
         
