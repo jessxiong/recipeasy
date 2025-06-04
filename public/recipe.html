@@ -44,18 +44,18 @@
     <h2>Instructions</h2>
     <p id="recipe-instructions"></p>
 
-    <h2>Comments</h2>
-    <div class="comments-container"></div>
-
-    <h3>Add a Comment</h3>
-    <form id="comment-form">
+    <h2 class="comment-header">Comments</h2>
+    <h3>Add a Comment:</h3>
+    <form id="comment-form" class="comment-form">
       <label for="comment-text">Comment:</label><br>
       <textarea id="comment-text" required></textarea><br>
       <label for="comment-rating">Rating (1–5):</label><br>
       <input type="number" id="comment-rating" min="1" max="5" required><br><br>
-      <button type="submit">Submit</button>
+      <button type="submit" class="button">Submit</button>
     </form>
     <div id="comment-message"></div>
+
+    <div class="comments-container"></div>
   </div>
 
   <!-- load recipe info from /recipes:id controller -->

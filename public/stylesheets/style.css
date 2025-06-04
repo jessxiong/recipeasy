@@ -74,7 +74,7 @@ a {
 
 /* main content */
 .content {
-    padding: 20px
+    padding: 20px 50px 20px 50px
 }
 .content-header {
     display: flex;
@@ -221,12 +221,7 @@ a {
     border-radius: 6px;
     font-family: 'Inter', sans-serif;
 }
-.comment strong {
-    font-weight: bold;
-    color: #333;
-}
-.comment .rating {
-    font-size: 0.9em;
-    color: #777;
-    margin-left: 10px;
+.comment-header {
+    color: #65881A;
+    margin-top: 25px;
 }
