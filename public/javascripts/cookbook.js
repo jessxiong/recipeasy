@@ -26,7 +26,6 @@ async function loadCookbooks() {
             const response = await fetch(`/api/cookbook`);
             const cookbook = await response.json();
             const cookbookOwnerId = cookbook.cookbookOwner
-            const username = 
     
             document.getElementById("cookbook-title").innerText = cookbook.title
             document.getElementById("cookbook-description").innerText = cookbook.description || ""
