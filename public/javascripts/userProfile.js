@@ -7,7 +7,7 @@ open & close popup form to update user info
 */
 const userPopup = document.getElementById('userPopup');
 document.getElementById('updateUserInfo').onclick = () => userPopup.style.display = 'flex';
-document.querySelector('.close-btn').onclick = () => userPopup.style.display = 'none';
+document.querySelector('.close-btn2').onclick = () => userPopup.style.display = 'none';
 
 
 /*
