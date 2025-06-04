@@ -98,6 +98,12 @@ async function loadRecipes(filters = {}) {
     query.push("searchQuery=" + encodeURIComponent(filters.searchQuery));
   }
 
+  if (filters.recipeIds && filters.recipeIds.length) {
+    filters.recipeIds.forEach(id => {
+      query.push("recipeIds=" + encodeURIComponent(id));
+    });
+  }
+
   if (query.length) {
     url += "?" + query.join("&");
   }
