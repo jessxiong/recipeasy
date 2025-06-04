@@ -86,18 +86,17 @@ router.post("/", async (req, res) => {
       return res.status(401).json({ status: "error", error: "Not logged in" });
     }
     
+    const username = req.session.account.username
     const title = req.body.cookbookTitle;
     const description = req.body.cookbookDescription;
-    //const userId = req.body.userId;
-    const userId = req.session.account.oid
     const privacy = req.body.cookbookPrivacy;
 
     let newCookbook = new models.Cookbook({
-      cookbookOwner: userId,
+      cookbookOwner: username,
       title: title,
       description: description,
       cookbookPrivacy: privacy,
-      lists: [],
+      cookbookRecipes: []
     });
 
     console.log(newCookbook);
@@ -148,17 +147,12 @@ router.post("/addRecipe", async (req, res) => {
     }
 
     //edge case if first recipe added to cookbook
-    if (!cookbook.lists || cookbook.lists.length === 0) {
-      cookbook.lists = [
-        {
-          listPrivacy: cookbook.cookbookPrivacy,
-          recipes: [],
-        },
-      ];
+    if (!cookbook.cookbookRecipes || cookbook.cookbookRecipes.length === 0) {
+      cookbook.lists = [];
     }
 
     //adds recipe to top of cookbooks
-    cookbook.lists[0].recipes.push(recipeId);
+    cookbook.cookbookRecipes.push(recipeId);
     await cookbook.save();
     res
       .status(200)
