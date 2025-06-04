@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>recipeEASY</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/img/favicon_logo.ico">
+
+</head>
+<body onload="init()">
+    <div class="header">
+        <h1>recipeEASY</h1>
+        <div class="auth">
+            <a id="signInLink" href="/signin">Sign In</a>
+            <a id="signOutLink" href="/signout" style="display:none;">Sign Out</a>
+        </div>
+    </div>
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="allRecipes.html">All Recipes</a></li>
+            <li><a href="allCookbooks.html">Cookbooks</a></li>
+        </ul>
+    </nav>
+
+    <h1>Hi <span id="username-span"></span></h2>
+    <div id="user-info-div">
+      <h3>User Info:</h3>
+      <p>Username: </p><span id="username-display"></span>
+      <p></p><span id="userDescription-display"></span>
+      <p>Allergies: </p><span id="allergens-display"></span>
+      <p>Personal Cookbooks: </p><span id="cookbooks-display"></span>
+      <br>
+      <button onclick="loadUserInfo()">refresh</button>
+    </div>
+    <br>
+    <div id="user_info_new_div" class="d-none">
+      <h3>Update User Info:</h3>
+      <label>Username: <input type="text" id="username-input"></label><br>
+      <label>Personal Bio: <input type="text" id="userDescription-input"></label><br>
+      <label>Allergies: <input type="text" id="allergens-input"></label><br>
+      <br>
+      <button onclick="saveUserInfo()">Save User Info</button>
+    </div>
+    <br><br>
+    <h2>All Posts</h2>
+    <button onclick="loadUserInfo()">refresh</button>
+    <div id="posts_box"></div>
+
+</body>
+</html>

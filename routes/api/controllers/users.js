@@ -27,7 +27,7 @@ router.get('/userInfo', async function(req, res) {
     }
 });
 
-/*
+/* 
 GET user
     * function: retrives metadata from mongodb about requested user 
     * returns: json of user info or error 
