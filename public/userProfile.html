@@ -31,8 +31,7 @@
             </div>
 
         <button id="updateUserInfo" class="button">Update Your Info</button>
-        <div id="user_info_new_div" class="d-none">
-            <div id="userPopup" class="userPopup">
+        <div id="userPopup" class="userPopup">
                 <div class="popupContent">
                     <span class="close-btn2">&times;</span>
                     <h2>Update User Info</h2>
@@ -40,7 +39,7 @@
                         <label>User Bio:<textarea id="userDescription-input" required placeholder="Write a brief user bio..."></textarea></label>
                         <label>
                             Allergies:
-                            <input type="text" id="allergens-input" placeholder="e.g. eggs, dairyr">
+                            <input type="text" id="allergens-input" placeholder="e.g. eggs, dairy">
                             <button type="button" id="addAllergensBtn" class="addbtn">Add</button>
                         </label>
                         <ul id="allergenList"></ul>
@@ -48,8 +47,26 @@
                         <button type="submit" class="button">Update Personal Info</button>
                     </form>
                 </div>
-            </div>
         </div>
+        <div id="userPopup" class="userPopup">
+            <div class="popupContent">
+                <span class="close-btn2">&times;</span>
+                <h2>Update User Info</h2>
+                <form id="updateUserInfo">
+                    <label>User Bio:<textarea id="userDescription-input" required placeholder="Write a brief user Bio..."></textarea></label>
+
+                    <label>
+                        Allergens:
+                        <input type="text" id="allergen-input" placeholder="e.g. nuts">
+                        <button type="button" id="addAllergenBtn" class="addbtn">Add</button>
+                    </label>
+                    <ul id="allergenList"></ul>
+     
+                    <p id="postStatus" style="color: red;"></p>
+                    <button type="submit" class="button">Create Cookbook</button>
+                </form>
+            </div>
+        </div> 
     
         <div id="user-info-div">
             <h3>User Info:</h3>
