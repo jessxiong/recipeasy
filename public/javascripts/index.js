@@ -111,6 +111,7 @@ async function loadRecipes(filters = {}) {
   let recipesJson = await fetchJSON(url);
 
   let recipesHtml = recipesJson.map((recipeInfo) => {
+    const isPrivate = recipeInfo.recipePrivacy === "Private";
     return `
     <a href="recipe.html?id=${recipeInfo._id}" class="recipe-card">
       <h2>${recipeInfo.recipeName || "Untitled Recipe"}</h2>
@@ -127,10 +128,10 @@ async function loadRecipes(filters = {}) {
           }
         </ul>
       </div>
+      ${isPrivate ? `<span class="lock-icon" title="Private">&#128274;</span>` : ""}
     </a>
     `;
   });
-
   document.getElementById("recipe-cards").innerHTML = recipesHtml.join("");
 }
 

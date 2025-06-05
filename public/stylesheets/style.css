@@ -110,10 +110,17 @@ a {
     min-width: 300px;
 }
 .recipe-card, .cookbook-card {
+    position: relative;
     width: 300px;
     height: 400px;
     padding: 10px;
     border: 1px solid #ccc;
+}
+.lock-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 1.6rem;
 }
 .bottom-content{
     display: flex;

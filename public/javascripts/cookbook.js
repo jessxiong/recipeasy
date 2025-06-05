@@ -9,6 +9,18 @@ async function loadCookbooks() {
   
     try {
       const cookbooks = await fetchJSON('/api/cookbook'); 
+
+      let currentUser = null;
+      try {
+        const authRes = await fetch('/api/auth/status');
+        if (authRes.ok) {
+          const authData = await authRes.json();
+          currentUser = authData.username?.toLowerCase(); // Normalize email case
+        }
+      } catch (authErr) {
+        console.error('Auth check failed:', authErr);
+      }
+
       function getCookbookIdFromURL() {
         const params = new URLSearchParams(window.location.search);
         return params.get('id');
@@ -46,13 +58,23 @@ async function loadCookbooks() {
         return;
       }
   
-      container.innerHTML = cookbooks.map(cookbook => `
-        <a href="cookbook.html?id=${encodeURIComponent(cookbook._id)}" class="cookbook-card">
-          <h2>${cookbook.title || 'Untitled Cookbook'}</h2>
-          <p>${cookbook.description || ''}</p>
-          <p><em>Owner: ${cookbook.cookbookOwner || 'Unknown'}</em></p>
-        </a>
-      `).join('');
+      container.innerHTML = cookbooks.map(cookbook => {
+        const isPrivate = (cookbook.cookbookPrivacy || "") === "private";
+        const isOwner = cookbook.cookbookOwner?.toLowerCase() === currentUser;
+
+        if (isPrivate && !isOwner) {
+          return '';
+        }
+        
+        return `
+          <a href="cookbook.html?id=${encodeURIComponent(cookbook._id)}" class="cookbook-card">
+            <h2>${cookbook.title || 'Untitled Cookbook'}</h2>
+            <p>${cookbook.description || ''}</p>
+            <p><em>Owner: ${cookbook.cookbookOwner || 'Unknown'}</em></p>
+            ${isPrivate ? `<span class="lock-icon" title="Private">&#128274;</span>` : ""}
+          </a>
+        `;
+      }).join('');
     }
     catch (error) {
       container.innerText = 'Failed to load cookbooks.';

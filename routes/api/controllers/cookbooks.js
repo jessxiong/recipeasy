@@ -10,9 +10,20 @@ GET /
 */
 router.get("/", async (req, res) => {
   try {
-    const allCookbooks = await models.Cookbook.find({
-      cookbookPrivacy: "public",
-    });
+    const query = { cookbookPrivacy: "Public" };
+    
+    // if user is logged in, also get their private cookbooks
+    if (req.session.isAuthenticated) {
+      query.$or = [
+        { cookbookPrivacy: "Public" },
+        { 
+          cookbookPrivacy: "Private",
+          cookbookOwner: req.session.account.username 
+        }
+      ];
+    }
+    const allCookbooks = await models.Cookbook.find(query);
+
     //await models.Cookbook.find({cookbookPrivacy: "public"}).select("title lists") - less info displayed?
     // console.log(`Success retrieval of all public cookbooks: ${allCookbooks}`)
     res.json(allCookbooks);
@@ -30,9 +41,15 @@ GET /
 */
 router.get("/:id", async (req, res) => {
   try {
-
     const cookbookId = req.params.id
     const cookbook = await req.models.Cookbook.findById(cookbookId)
+
+    // Check if cookbook is private and user doesn't own it
+    if (cookbook.cookbookPrivacy === "Private" && (!req.session.isAuthenticated || 
+       cookbook.cookbookOwner !== req.session.account.username)) {
+      return res.status(403).json({ status: "error", error: "Access denied" });
+    }
+
     res.json(cookbook);
   } catch (error) {
     console.log(`Error retrieving cookbook with ID ${req.params.id}: ${error}`)
