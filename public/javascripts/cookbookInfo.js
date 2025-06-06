@@ -139,13 +139,6 @@ document.querySelector(".close-btn").onclick = () => {
 document.getElementById("add-recipe-form").onsubmit = async (e) => {
   e.preventDefault();
 
-<<<<<<< HEAD
-        document.getElementById("add-recipe-popup").style.display = "none";
-        location.reload();
-    } catch (err) {
-      console.error("Error adding recipe to cookbook:", err);
-      alert("Failed to add recipe: " + err.message);
-=======
   const selectedIds = Array.from(
     document.querySelectorAll('input[name="recipeId"]:checked')
   ).map((cb) => cb.value);
@@ -171,12 +164,12 @@ document.getElementById("add-recipe-form").onsubmit = async (e) => {
       if (!response.ok) {
         throw new Error(await response.text());
       }
->>>>>>> e85df7ac72834f2f2ee646aa30e46ebbaadba44f
     }
 
     document.getElementById("add-recipe-popup").style.display = "none";
     location.reload();
   } catch (err) {
     console.error("Error adding recipe to cookbook:", err);
+    alert("Failed to add recipe: " + err.message);
   }
 };
