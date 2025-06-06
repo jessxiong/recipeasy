@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
             return res.status(401).json({ status: "error", error: "not logged in" })
         }
         const username = req.body.username
-        let userInfo = await models.User.findOne({username})
+        let userInfo = await models.User.findOne({username: username})
         if(!userInfo){
             userInfo = new models.User({
                 username: userInfo.username,

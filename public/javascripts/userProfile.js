@@ -97,7 +97,7 @@ loadUserRecipes
 async function loadUserRecipes(username){
     try{
         document.getElementById("recipe-cards").innerText = "Loading...";
-        let recipesJson = await fetchJSON(`api/recipes?username=${encodeURIComponent(username)}`);
+        let recipesJson = await fetchJSON(`api/recipes?user=${encodeURIComponent(username)}`);
         let recipesHTML = recipesJson.map((recipeInfo) => {
             return `
             <h1>${username}'s Recipes:</h1>
