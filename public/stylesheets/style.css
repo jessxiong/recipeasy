@@ -7,6 +7,10 @@ a {
     text-decoration: none;
     color: black;
 }
+.link:hover {
+    color: #004d00;
+    text-decoration: underline;
+}
 
 /* header */
 .header {
@@ -40,6 +44,13 @@ a {
     color: #006400;
     text-decoration: none;
     font-weight: bold;
+}
+.nav a:hover {
+    color: #004d00;
+    text-decoration: underline;
+    background-color: #e6f0b3;
+    border-radius: 4px;
+    padding: 4px;
 }
 
 .search-container {
@@ -116,6 +127,13 @@ a {
     padding: 10px;
     border: 1px solid #ccc;
 }
+.recipe-card:hover,
+.cookbook-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
 .lock-icon {
     position: absolute;
     bottom: 10px;
@@ -156,6 +174,11 @@ a {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+.filter-dropdown summary:hover {
+    background-color: #eef3d1;
+    color: #004d00;
+    transition: background-color 0.2s ease;
 }
 .filter-dropdown label {
     display: block;
@@ -209,6 +232,13 @@ a {
     padding: 8px;
     border-radius: 4px;
     border: none;
+}
+.button:hover {
+    background-color: #b0bb4c;
+    cursor: pointer;
+    transform: scale(1.03);
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    transition: all 0.2s ease-in-out;
 }
 .addbtn{
     margin-top: 10px;
