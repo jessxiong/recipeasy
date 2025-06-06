@@ -37,12 +37,9 @@ router.get('/', async (req, res) => {
       recipeFilter.recipeName = searchQuery;
     }
 
-     // 🚨 Correct privacy logic
      if (privacy) {
-      // If user is explicitly filtering by privacy (e.g., "private" or "public")
       recipeFilter.recipePrivacy = privacy.toLowerCase();
     } else {
-      // Otherwise, show public recipes + user's own private recipes
       if (req.session?.isAuthenticated && req.session.username) {
         console.log("account username", req.session.account.username);
         const user = await req.models.User.findOne({ username: req.session.username });
@@ -52,10 +49,9 @@ router.get('/', async (req, res) => {
             { recipePrivacy: "private", recipeOwner: user._id }
           ];
         } else {
-          recipeFilter.recipePrivacy = "public"; // fallback if user not found
+          recipeFilter.recipePrivacy = "public"; 
         }
       } else {
-        // Not logged in → only public
         recipeFilter.recipePrivacy = "public";
       }
     }

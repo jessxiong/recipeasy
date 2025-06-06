@@ -16,36 +16,41 @@ saveUserInfo
     * json of user info
 */
 async function saveUserInfo(){
-    const urlParams = new URLSearchParams(window.location.search);
-     const username = urlParams.get('user');
-     if(username==myIdentity){
-         document.getElementById("username-span").innerText= `You (${username})`;
-         document.getElementById("user_info_new_div").classList.remove("d-none");
-         
-     }else{
-         document.getElementById("username-span").innerText=username;
-         document.getElementById("user_info_new_div").classList.add("d-none");
-     } 
-     // gets user inputs 
-     let newAllergies = document.getElementById(`allergens-input`).value;
-     let newDesc =  document.getElementById(`userDescription-input`).value;
-     
-     //update existing lists of allergens
-    let existingUserInfo = await fetchJSON(`api/users?user=${encodeURIComponent(username)}`);
-    let currentAllergens = existingUserInfo.allergens || [];
-    let newAllergensList = newAllergies.split(',').map(a => a.trim());
-    let combinedAllergens = Array.from(new Set([...currentAllergens, ...newAllergensList]));
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('user');
+        if(username==myIdentity){
+            document.getElementById("username-span").innerText= `You (${username})`;
+            document.getElementById("user_info_new_div").classList.remove("d-none");
+            
+        }else{
+            document.getElementById("username-span").innerText=username;
+            document.getElementById("user_info_new_div").classList.add("d-none");
+        } 
+        // gets user inputs 
+        let newAllergies = document.getElementById(`allergens-input`).value;
+        let newDesc =  document.getElementById(`userDescription-input`).value;
+        
+        //update existing lists of allergens
+        let existingUserInfo = await fetchJSON(`api/users?user=${encodeURIComponent(username)}`);
+        let currentAllergens = existingUserInfo.allergens || [];
+        let newAllergensList = newAllergies.split(',').map(a => a.trim());
+        let combinedAllergens = Array.from(new Set([...currentAllergens, ...newAllergensList]));
 
-     let responseJson = await fetchJSON(`api/users?user=${encodeURIComponent(username)}`, {
-         method: "POST",
-         body: {
-             username: username,
-             userDescription: newDesc,
-             allergens: combinedAllergens
-         }
-     })
-     console.log(`Response from saveUserInfo: ${responseJson}`)
-     loadUserInfo();
+        let responseJson = await fetchJSON(`api/users?user=${encodeURIComponent(username)}`, {
+            method: "POST",
+            body: {
+                username: username,
+                userDescription: newDesc,
+                allergens: combinedAllergens
+            }
+        })
+        console.log(`Response from saveUserInfo: ${responseJson}`)
+        loadUserInfo();
+    } catch (error) {
+        console.error("Error in saveUserInfo:", error);
+        alert("Failed to save user info. Please try again.");
+    }
  }
 
  /*
@@ -56,17 +61,17 @@ loadUserInfo
             * any error in the client side code
 */
  async function loadUserInfo(){
-    const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get('user');
-    if(username==myIdentity){
-        document.getElementById("username-span").innerText= `You (${username})`;
-        document.getElementById("user_info_new_div").classList.remove("d-none");
-        
-    }else{
-        document.getElementById("username-span").innerText=username;
-        document.getElementById("user-info-new-div").classList.add("d-none");
-    }
     try{
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('user');
+        if(username==myIdentity){
+            document.getElementById("username-span").innerText= `You (${username})`;
+            document.getElementById("user_info_new_div").classList.remove("d-none");
+            
+        }else{
+            document.getElementById("username-span").innerText=username;
+            document.getElementById("user-info-new-div").classList.add("d-none");
+        }
         let responseJson = await fetchJSON(`api/users?user=${encodeURIComponent(username)}`)
         if(!responseJson.ok){ 
             console.log("error fetching and loading userInfo json")

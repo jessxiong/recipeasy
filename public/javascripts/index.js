@@ -205,6 +205,7 @@ document.getElementById("searchQuery").oninput = async (e) => {
   loadRecipes(getCurrentFilters());
 };
 
+//dynamic sign in and sign out button based on authentication status
 async function updateAuthUI() {
   try {
     const res = await fetch('/api/session');

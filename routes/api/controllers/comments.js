@@ -4,6 +4,7 @@ import models from "../../../models.js";
 
 const { Recipe, Comment } = models;
 
+//gets all comments for a given recipe id 
 router.get("/", async (req, res) => {
   try {
     const { recipeID } = req.query;
@@ -20,6 +21,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+//posts a new comment for a recipe 
 router.post('/', async (req, res) => {
 
     try {
