@@ -32,7 +32,7 @@ const recipeSchema = new mongoose.Schema({
     recipeOwner: String,
     recipePrivacy: String,
     recipeInstructions: String,
-    allergens: [String],
+    recipeAllergens: [String]
 });
 
 models.Recipe = mongoose.model('Recipe', recipeSchema);

@@ -15,31 +15,39 @@ router.get('/', async (req, res) => {
     // sources:
     // where i learned i could use mongodb query objects: https://www.w3schools.com/nodejs/nodejs_mongodb_query.asp
     // i learned how to query with mongodb in info430
+    // regexp: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions
 
+    // init recipe filter
     let recipeFilter = {};
     
+    // get current filters from frontend
     const {ingredients, allergens, privacy, searchQuery, ids} = req.query;
     
-
     if (ids) {
       const idArray = Array.isArray(ids) ? ids : [ids];
       recipeFilter._id = { $in: idArray };
     }
 
+    // regex to search for patterns in ingredients
     if (ingredients) {
       let ingredientsArray = Array.isArray(ingredients) ? ingredients : [ingredients];
       recipeFilter.recipeIngredients = { 
         $all: ingredientsArray.map((ingredient) => (
-          {$elemMatch:  {$regex: ingredient, $options: 'i'}}
+          new RegExp(ingredient, 'i')
         ))} 
       }
     
+    // exclude allergies
      if (allergens) {
       let allergensArray = Array.isArray(allergens) ? allergens : [allergens];
-      recipeFilter.recipeAllergens = { $nin: allergensArray.map((allergen) => (
-          {$elemMatch:  {$regex: allergen, $options: 'i'}}
-        ))}
+      recipeFilter.recipeAllergens = {
+        $not: {
+          $elemMatch: {
+            $in: allergensArray.map((allergen) => (new RegExp(allergen, 'i')))
+          }
+        }
       }
+    }
 
     if (privacy) { 
       recipeFilter.recipePrivacy = privacy;
