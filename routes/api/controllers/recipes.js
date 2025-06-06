@@ -37,25 +37,21 @@ router.get('/', async (req, res) => {
       recipeFilter.recipeName = searchQuery;
     }
 
-     if (privacy) {
+    if (privacy) {
       recipeFilter.recipePrivacy = privacy.toLowerCase();
     } else {
-      if (req.session?.isAuthenticated && req.session.username) {
-        console.log("account username", req.session.account.username);
-        const user = await req.models.User.findOne({ username: req.session.username });
-        if (user) {
-          recipeFilter.$or = [
-            { recipePrivacy: "public" },
-            { recipePrivacy: "private", recipeOwner: user._id }
-          ];
-        } else {
-          recipeFilter.recipePrivacy = "public"; 
-        }
+      if (req.session?.isAuthenticated && req.session.account?.username) {
+        recipeFilter.$or = [
+          { recipePrivacy: "public" },
+          { 
+            recipePrivacy: "private",
+            recipeOwner: req.session.account.username 
+          }
+        ];
       } else {
         recipeFilter.recipePrivacy = "public";
       }
     }
-
 
     let allRecipes = await req.models.Recipe.find(recipeFilter);
     // let previews = await Promise.all(
@@ -98,6 +94,18 @@ router.get('/:id', async (req, res) => {
         if (!recipe) {
           return res.status(404).json({ status: "error", error: "Recipe not found" })
         }
+
+        // only show private recipe if user owns it
+        if (recipe.recipePrivacy === "private") {
+          if (!req.session?.isAuthenticated || 
+              req.session.account?.username !== recipe.recipeOwner) {
+            return res.status(403).json({ 
+              status: "error", 
+              error: "You don't have permission to view this recipe" 
+            });
+          }
+        }
+
         res.json(recipe)
       } 
       catch (error) {
@@ -106,7 +114,6 @@ router.get('/:id', async (req, res) => {
       }
   })
   
-
 
 /*
 POST /
@@ -129,8 +136,6 @@ router.post('/', async (req, res) => {
       const recipePrivacy = req.body.recipePrivacy
       const instructions = req.body.recipeInstructions
 
-      // let image = req.body.image || ""
-
       const newRecipe = new models.Recipe({
         recipeName: name,
         recipeDescription: desc,
@@ -139,9 +144,6 @@ router.post('/', async (req, res) => {
         recipeIngredients: ingredients,
         recipeInstructions: instructions,
         recipeAllergens: recipeAllergens,
-        // image: image,
-        // views: 0,
-        // likes: 0,
         comments: []
       })
       console.log("Saving recipe:", newRecipe);

@@ -147,7 +147,6 @@ async function postRecipe() {
   );
   let recipePrivacy = document.getElementById("recipePrivacy").value.toLowerCase();
   let recipeInstructions = document.getElementById("recipeInstructions").value;
-  // let recipeImage = document.getElementById("coverPhoto").value; 
 
   if (!recipeName.trim()) {
     document.getElementById("postStatus").innerText = "Recipe name is required";
@@ -164,7 +163,6 @@ async function postRecipe() {
         recipeAllergens,
         recipePrivacy,
         recipeInstructions
-        // image: recipeImage,
       },
     });
     document.getElementById("postStatus").innerText = "Recipe added!";
