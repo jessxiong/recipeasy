@@ -100,5 +100,6 @@ document.getElementById("add-recipe-form").onsubmit = async (e) => {
         location.reload();
     } catch (err) {
       console.error("Error adding recipe to cookbook:", err);
+      alert("Failed to add recipe: " + err.message);
     }
   };
