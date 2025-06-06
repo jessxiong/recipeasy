@@ -12,9 +12,14 @@ GET /
 router.get('/', async (req, res) => {
   try{
 
-    let recipeFilter = {};
+    // sources:
+    // where i learned i could use mongodb query objects: https://www.w3schools.com/nodejs/nodejs_mongodb_query.asp
+    // i learned how to query with mongodb in info430
 
+    let recipeFilter = {};
+    
     const {ingredients, allergens, privacy, searchQuery, ids} = req.query;
+    
 
     if (ids) {
       const idArray = Array.isArray(ids) ? ids : [ids];
@@ -22,19 +27,34 @@ router.get('/', async (req, res) => {
     }
 
     if (ingredients) {
-      recipeFilter.recipeIngredients = { $all: ingredients }
-    }
-
+      let ingredientsArray = Array.isArray(ingredients) ? ingredients : [ingredients];
+      recipeFilter.recipeIngredients = { 
+        $all: ingredientsArray.map((ingredient) => (
+          {$elemMatch:  {$regex: ingredient, $options: 'i'}}
+        ))} 
+      }
+    
      if (allergens) {
-      recipeFilter.recipeAllergens = { $all: allergens }
-    }
+      let allergensArray = Array.isArray(allergens) ? allergens : [allergens];
+      recipeFilter.recipeAllergens = { $nin: allergensArray.map((allergen) => (
+          {$elemMatch:  {$regex: allergen, $options: 'i'}}
+        ))}
+      }
 
-    if (privacy) {
+    if (privacy) { 
       recipeFilter.recipePrivacy = privacy;
     }
 
     if (searchQuery) {
-      recipeFilter.recipeName = searchQuery;
+
+      // found on stack overflow to remove emojis
+      let sanitized = searchQuery.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '');
+      
+      // any special characters
+      sanitized = sanitized.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+      // case insensitive
+      recipeFilter.recipeName = { $regex: sanitized, $options: 'i' };
     }
 
     if (privacy) {
