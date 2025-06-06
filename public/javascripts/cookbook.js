@@ -98,7 +98,7 @@ async function loadCookbooks() {
     });
     loadCookbooks();
   } catch (error) {
-    console.log(error);
+    document.getElementById("postStatus").innerText = "Error: Must be logged in";
     throw error;
   }
 }

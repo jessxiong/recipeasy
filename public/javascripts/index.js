@@ -170,7 +170,7 @@ async function postRecipe() {
     popup.style.display = "none";
     loadRecipes();
   } catch (error) {
-    document.getElementById("postStatus").innerText = "Error";
+    document.getElementById("postStatus").innerText = "Error: Must be logged in";
     throw error;
   }
 }
