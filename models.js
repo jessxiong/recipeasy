@@ -33,27 +33,19 @@ const recipeSchema = new mongoose.Schema({
     recipePrivacy: String,
     recipeInstructions: String,
     allergens: [String],
-    // views: Number,
-    // likes: Number,
-    // image: String
 });
 
 models.Recipe = mongoose.model('Recipe', recipeSchema);
 
 const cookbookSchema = new mongoose.Schema({
-    cookbookOwner: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+    cookbookOwner: String,
     title: String,
     description: String,
     cookbookPrivacy: String,
-    lists: [{
-        recipes: [{type: mongoose.Schema.Types.ObjectId, ref: "Recipe"}]
-    }]
+    cookbookRecipes: [{type: mongoose.Schema.Types.ObjectId, ref: "Recipe"}]
 });
 
 models.Cookbook = mongoose.model('Cookbook', cookbookSchema);
-
-
-
 
 // Future Implementation:
 

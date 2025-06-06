@@ -10,9 +10,20 @@ GET /
 */
 router.get("/", async (req, res) => {
   try {
-    const allCookbooks = await models.Cookbook.find({
-      cookbookPrivacy: "public",
-    });
+    const query = { cookbookPrivacy: "public" };
+    
+    // if user is logged in, also get their private cookbooks
+    if (req.session.isAuthenticated) {
+      query.$or = [
+        { cookbookPrivacy: "public" },
+        { 
+          cookbookPrivacy: "private",
+          cookbookOwner: req.session.account.username 
+        }
+      ];
+    }
+    const allCookbooks = await models.Cookbook.find(query);
+
     //await models.Cookbook.find({cookbookPrivacy: "public"}).select("title lists") - less info displayed?
     // console.log(`Success retrieval of all public cookbooks: ${allCookbooks}`)
     res.json(allCookbooks);
@@ -30,9 +41,15 @@ GET /
 */
 router.get("/:id", async (req, res) => {
   try {
-
     const cookbookId = req.params.id
     const cookbook = await req.models.Cookbook.findById(cookbookId)
+
+    // Check if cookbook is private and user doesn't own it
+    if (cookbook.cookbookPrivacy === "private" && (!req.session.isAuthenticated || 
+       cookbook.cookbookOwner !== req.session.account.username)) {
+      return res.status(403).json({ status: "error", error: "Access denied" });
+    }
+
     res.json(cookbook);
   } catch (error) {
     console.log(`Error retrieving cookbook with ID ${req.params.id}: ${error}`)
@@ -86,18 +103,17 @@ router.post("/", async (req, res) => {
       return res.status(401).json({ status: "error", error: "Not logged in" });
     }
     
+    const username = req.session.account.username
     const title = req.body.cookbookTitle;
     const description = req.body.cookbookDescription;
-    //const userId = req.body.userId;
-    const userId = req.session.account.oid
     const privacy = req.body.cookbookPrivacy;
 
     let newCookbook = new models.Cookbook({
-      cookbookOwner: userId,
+      cookbookOwner: username,
       title: title,
       description: description,
       cookbookPrivacy: privacy,
-      lists: [],
+      cookbookRecipes: []
     });
 
     console.log(newCookbook);
@@ -148,17 +164,12 @@ router.post("/addRecipe", async (req, res) => {
     }
 
     //edge case if first recipe added to cookbook
-    if (!cookbook.lists || cookbook.lists.length === 0) {
-      cookbook.lists = [
-        {
-          listPrivacy: cookbook.cookbookPrivacy,
-          recipes: [],
-        },
-      ];
+    if (!cookbook.cookbookRecipes || cookbook.cookbookRecipes.length === 0) {
+      cookbook.lists = [];
     }
 
     //adds recipe to top of cookbooks
-    cookbook.lists[0].recipes.push(recipeId);
+    cookbook.cookbookRecipes.push(recipeId);
     await cookbook.save();
     res
       .status(200)

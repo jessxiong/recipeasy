@@ -102,18 +102,25 @@ a {
     font-size: 24px;
     font-weight: 500;
 }
-.recipe-cards {
+.recipe-cards, .cookbook-cards {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     flex: 1 1 600px; 
     min-width: 300px;
 }
-.recipe-card {
+.recipe-card, .cookbook-card {
+    position: relative;
     width: 300px;
     height: 400px;
     padding: 10px;
     border: 1px solid #ccc;
+}
+.lock-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 1.6rem;
 }
 .bottom-content{
     display: flex;
@@ -158,8 +165,8 @@ a {
     padding-bottom: 15px;
 }
   
-/* recipe/cookbook popup form */
-.recipePopup, .cookbookPopup, .popup{
+/* recipe/cookbook/user popup form */
+.recipePopup, .cookbookPopup, .popup, .userPopup{
     position: fixed;
     top: 0;
     left: 0;

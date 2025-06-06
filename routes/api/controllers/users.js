@@ -1,26 +1,57 @@
-import express from 'express'
-const router = express.Router()
+import express from 'express';
+import models from "../../../models.js";
 
+var router = express.Router();
+
+
+/* GET info about logged in user */
+router.get('/userInfo', async function(req, res) {
+    try{ 
+        //gets json info belonging to authenticated users
+        if(req.session.isAuthenticated){
+            res.json({
+                status: "loggedin",
+                userInfo: {
+                    name: req.session.account.name,
+                    username: req.session.account.username,
+                }
+            })
+        }
+        else{ //loggedout user gets no info returned
+            res.json({status: "loggedout"})
+        }
+    }
+    catch(error){ 
+        console.log("Error getting user information", error)
+        res.status(500).json({status: "server error"}) 
+    }
+});
+
+/* 
+GET user
+    * function: retrives metadata from mongodb about requested user 
+    * returns: json of user info or error 
+*/
 router.get('/', async (req, res) => {
     try{
         if(!req.session.isAuthenticated){ 
             return res.status(401).json({ status: "error", error: "not logged in" })
         }
-        const username = req.session.account.username
+        const username = req.body.username
         let userInfo = await models.User.findOne({username})
-        //in case user has no userInfo obj yet
         if(!userInfo){
-            userInfo = new models.User({username: username})
+            userInfo = new models.User({
+                username: userInfo.username,
+             })
             await userInfo.save()
         }
         res.json(userInfo)
     }
     catch(error){
-        console.log(`Error retrieving user: ${error}`)
+        console.log(`Error retrieving user info: ${error}`)
         res.status(500).json({ status: "error", error: error })
     }
 })
-
 
 /*
 POST posts 
@@ -30,85 +61,47 @@ POST posts
 router.post('/', async (req, res) => {
     try{ 
         //user must be logged in
-        if(req.session.isAuthenticated){ 
-            const reqUsername = req.session.account.username
-            const reqDescription = req.body.userDescription
-            const reqAllergies = req.body.userAllergies
-
-            //auth users always will have at least one cookbook
-            favoritesCookbook = new models.Cookbook({
-              cookbookOwner: userId,
-              title: "Favorites",
-              cookbookPrivacy: "private",
-              lists: [],
-            });
-            
-            await favoritesCookbook.save();
-      
-            if (req.session.username !== reqUsername) {
-                return res.status(403).json({ error: "Unauthorized to update this user" });
-              }
-
-              let updatedUserInfo = await models.UserInfo.findOneAndUpdate(
-                { username: reqUsername },
-                { userDescription: reqDescription, 
-                cookbooks: [favoritesCookbook],
-                allergens: reqAllergies },
-                { new: true, upsert: true }
-            );
-            await updatedUserInfo.save()
-
-            res.json({ status: "success", updatedUserInfo})
-        } 
-        else {
+        if(!req.session.isAuthenticated){ 
             return res.status(401).json({status: "error", error: "not logged in"})
         }
+
+        const reqUsername = req.body.username
+        if (req.session.username !== reqUsername) {
+            return res.status(403).json({ error: "Unauthorized to update this user" });
+        }
+
+        const reqDesc = req.body.userDescription
+        const reqAllergens = req.body.allergens
+        const reqCookbooks = req.body.cookbooks
+
+        if(!reqCookbooks){
+            let favorites = new models.Cookbook({
+                title: "Favorites",
+                description: "",
+                cookbookPrivacy: "private",
+                cookbookRecipes: [],
+                cookbookOwner: username
+              });
+
+              await favorites.save()
+        }
+
+        let updatedUserInfo = await models.UserInfo.findOneAndUpdate(
+            { username: reqUsername },
+            {   userDescription: reqDesc,
+                cookbooks: reqCookbooks || favorites,
+                allergens:reqAllergens  },
+            { new: true, upsert: true } 
+        );
+        await updatedUserInfo.save()
+    
+        res.json({ status: "success", updatedUserInfo})
     }
     catch(error){
-        console.log(`Error posting and updating user information: ${error}`)
+        console.log(`Error updating user information: ${error}`)
         res.status(500).json({ status: "error", error: error })
 
     }
 })
 
-/*
-GET user
-    * function: retrives info about logged in users 
-    * returns: username + user info
-    * error: json errors  
-*/
-//DELETE THIS COMMENT IN FINAL: test out with api call on local host - http://localhost:3000/api/users/userInfo
-router.get('/userInfo', async function(req, res) {
-    try{ 
-         //user must be logged in
-         if(!req.session.isAuthenticated){ 
-            return res.status(401).json({ status: "error", error: "Not logged in" })
-        }
-      
-         const userId = req.session.account.oid
-        //const userId = req.session.account.userId
-        //const user = await models.User.findById(userId);
-        //const username = req.session.account.username
-
-        const allUserCookbooks = await models.Cookbook.find({cookbookOwner: userId})
-        if(!allUserCookbooks){
-            console.log("error retrieving users cookbooks or no users cookbooks")
-         }
-        
-        res.json({
-                status: "loggedin",
-                userInfo: {
-                    username: req.session.account.username,
-                    userId: userId                  
-                },
-                userCookbooks: user.cookbooks
-        })
-    
-    }
-    catch(error){ 
-        console.log("Error getting user information: ", error)
-        res.status(500).json({status: "server error"}) 
-    }
-});
-
-export default router
+export default router;

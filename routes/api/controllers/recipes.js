@@ -15,10 +15,6 @@ router.get('/', async (req, res) => {
     let recipeFilter = {};
 
     const {ingredients, allergens, privacy, searchQuery, ids} = req.query;
-    console.log(ingredients);
-    console.log(allergens);
-    console.log(privacy);
-    console.log(searchQuery);
 
     if (ids) {
       const idArray = Array.isArray(ids) ? ids : [ids];
@@ -41,24 +37,47 @@ router.get('/', async (req, res) => {
       recipeFilter.recipeName = searchQuery;
     }
 
-    let allRecipes = await req.models.Recipe.find(recipeFilter);
-    let previews = await Promise.all(
-      allRecipes.map(async (recipe) => {
-        let recipeName = recipe.recipeName;
-        let recipeIngredients = recipe.recipeIngredients.toString()
-        let recipeDescription = recipe.recipeDescription;
-
-        let preview = `<div>`
-        if (recipeName) { preview += `<h2>${recipeName}</h2>`}
-        if (recipeIngredients) { preview += `<p>${recipeIngredients}</p>`}
-        if (recipeDescription) { preview += `<p>${recipeDescription}</p></div>`}
-        return {
-          recipeName: recipeName,
-          recipeIngredients: recipeIngredients,
-          recipePreview: preview
+     // 🚨 Correct privacy logic
+     if (privacy) {
+      // If user is explicitly filtering by privacy (e.g., "private" or "public")
+      recipeFilter.recipePrivacy = privacy.toLowerCase();
+    } else {
+      // Otherwise, show public recipes + user's own private recipes
+      if (req.session?.isAuthenticated && req.session.username) {
+        const user = await req.models.User.findOne({ username: req.session.username });
+        if (user) {
+          recipeFilter.$or = [
+            { recipePrivacy: "public" },
+            { recipePrivacy: "private", recipeOwner: user._id }
+          ];
+        } else {
+          recipeFilter.recipePrivacy = "public"; // fallback if user not found
         }
+      } else {
+        // Not logged in → only public
+        recipeFilter.recipePrivacy = "public";
       }
-      ))
+    }
+
+
+    let allRecipes = await req.models.Recipe.find(recipeFilter);
+    // let previews = await Promise.all(
+    //   allRecipes.map(async (recipe) => {
+    //     let recipeName = recipe.recipeName;
+    //     let recipeIngredients = recipe.recipeIngredients.toString()
+    //     let recipeDescription = recipe.recipeDescription;
+
+    //     let preview = `<div>`
+    //     if (recipeName) { preview += `<h2>${recipeName}</h2>`}
+    //     if (recipeIngredients) { preview += `<p>${recipeIngredients}</p>`}
+    //     if (recipeDescription) { preview += `<p>${recipeDescription}</p></div>`}
+    //     return {
+    //       recipeName: recipeName,
+    //       recipeIngredients: recipeIngredients,
+    //       recipePreview: preview
+    //     }
+    //   }
+    //   ))
     res.type('json')
     res.send(allRecipes)
    } 
@@ -110,6 +129,7 @@ router.post('/', async (req, res) => {
       const owner = req.body.username
       const ingredients = req.body.recipeIngredients
       const recipeAllergens = req.body.recipeAllergens || []
+      const recipePrivacy = req.body.recipePrivacy
       const instructions = req.body.recipeInstructions
       // let image = req.body.image || ""
 
@@ -117,7 +137,7 @@ router.post('/', async (req, res) => {
         recipeName: name,
         recipeDescription: desc,
         recipeOwner: owner,
-        recipePrivacy: 'Public',
+        recipePrivacy: recipePrivacy,
         recipeIngredients: ingredients,
         recipeInstructions: instructions,
         recipeAllergens: recipeAllergens,
