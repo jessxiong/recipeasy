@@ -115,6 +115,7 @@ async function loadRecipes(filters = {}) {
     return `
     <a href="recipe.html?id=${recipeInfo._id}" class="recipe-card">
       <h2>${recipeInfo.recipeName || "Untitled Recipe"}</h2>
+      <p class="owner">${recipeInfo.recipeOwner || ""}</p>
       <p class="description">${recipeInfo.recipeDescription || ""}</p>
       <div class="ingredients">
         <h4>Ingredients:</h4>

@@ -44,6 +44,7 @@ router.get('/', async (req, res) => {
     } else {
       // Otherwise, show public recipes + user's own private recipes
       if (req.session?.isAuthenticated && req.session.username) {
+        console.log("account username", req.session.account.username);
         const user = await req.models.User.findOne({ username: req.session.username });
         if (user) {
           recipeFilter.$or = [
@@ -117,20 +118,21 @@ POST /
     * returns: json status i.e {"status": "success"} or  {"status": "error", "error": error}
 */
 router.post('/', async (req, res) => {
-  console.log("recipe saving...", req.body);
   try{
-      /*
+
       //only logged in users can post
       if(!req.session.isAuthenticated){
           return res.status(401).json({status: "error", error: "not logged in"})
-      } */
+      }
+
       const name = req.body.recipeName
       const desc = req.body.recipeDescription
-      const owner = req.body.username
+      const owner = req.session.account.username
       const ingredients = req.body.recipeIngredients
       const recipeAllergens = req.body.recipeAllergens || []
       const recipePrivacy = req.body.recipePrivacy
       const instructions = req.body.recipeInstructions
+
       // let image = req.body.image || ""
 
       const newRecipe = new models.Recipe({

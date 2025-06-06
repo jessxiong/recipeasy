@@ -29,7 +29,7 @@ const recipeSchema = new mongoose.Schema({
     recipeName: String,
     recipeDescription: String,
     recipeIngredients: [String],
-    recipeOwner: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+    recipeOwner: String,
     recipePrivacy: String,
     recipeInstructions: String,
     allergens: [String],
