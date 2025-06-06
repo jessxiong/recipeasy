@@ -10,14 +10,14 @@ GET /
 */
 router.get("/", async (req, res) => {
   try {
-    const query = { cookbookPrivacy: "Public" };
+    const query = { cookbookPrivacy: "public" };
     
     // if user is logged in, also get their private cookbooks
     if (req.session.isAuthenticated) {
       query.$or = [
-        { cookbookPrivacy: "Public" },
+        { cookbookPrivacy: "public" },
         { 
-          cookbookPrivacy: "Private",
+          cookbookPrivacy: "private",
           cookbookOwner: req.session.account.username 
         }
       ];
@@ -45,7 +45,7 @@ router.get("/:id", async (req, res) => {
     const cookbook = await req.models.Cookbook.findById(cookbookId)
 
     // Check if cookbook is private and user doesn't own it
-    if (cookbook.cookbookPrivacy === "Private" && (!req.session.isAuthenticated || 
+    if (cookbook.cookbookPrivacy === "private" && (!req.session.isAuthenticated || 
        cookbook.cookbookOwner !== req.session.account.username)) {
       return res.status(403).json({ status: "error", error: "Access denied" });
     }

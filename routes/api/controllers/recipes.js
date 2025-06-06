@@ -15,10 +15,6 @@ router.get('/', async (req, res) => {
     let recipeFilter = {};
 
     const {ingredients, allergens, privacy, searchQuery, ids} = req.query;
-    console.log(ingredients);
-    console.log(allergens);
-    console.log(privacy);
-    console.log(searchQuery);
 
     if (ids) {
       const idArray = Array.isArray(ids) ? ids : [ids];

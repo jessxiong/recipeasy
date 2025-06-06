@@ -111,7 +111,7 @@ async function loadRecipes(filters = {}) {
   let recipesJson = await fetchJSON(url);
 
   let recipesHtml = recipesJson.map((recipeInfo) => {
-    const isPrivate = recipeInfo.recipePrivacy === "Private";
+    const isPrivate = recipeInfo.recipePrivacy === "private";
     return `
     <a href="recipe.html?id=${recipeInfo._id}" class="recipe-card">
       <h2>${recipeInfo.recipeName || "Untitled Recipe"}</h2>
@@ -144,7 +144,7 @@ async function postRecipe() {
   let recipeAllergens = JSON.parse(
     document.getElementById("allergensField").value || "[]"
   );
-  let recipePrivacy = document.getElementById("recipePrivacy").value;
+  let recipePrivacy = document.getElementById("recipePrivacy").value.toLowerCase();
   let recipeInstructions = document.getElementById("recipeInstructions").value;
   // let recipeImage = document.getElementById("coverPhoto").value; 
 
@@ -186,7 +186,7 @@ function getCurrentFilters() {
     document.querySelectorAll('input[name="allergens"]:checked')
   ).map((input) => input.value);
 
-  const privacy = document.querySelector('input[name="privacy"]:checked')?.value;
+  const privacy = document.querySelector('input[name="privacy"]:checked').value.toLowerCase();
 
   const searchQuery = document.getElementById("searchQuery").value.trim();
 

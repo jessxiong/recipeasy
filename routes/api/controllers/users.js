@@ -78,7 +78,7 @@ router.post('/', async (req, res) => {
             let favorites = new models.Cookbook({
                 title: "Favorites",
                 description: "",
-                cookbookPrivacy: "Private",
+                cookbookPrivacy: "private",
                 cookbookRecipes: [],
                 cookbookOwner: username
               });
