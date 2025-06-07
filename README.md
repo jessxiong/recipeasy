@@ -1,6 +1,9 @@
 # recipEASY
 By: Jocelyn Margarones, Alexia Chan, Renee Singh, Jessica Xiong
 
+## Render Deployment:
+https://recipeasy-y11k.onrender.com/
+
 ## Project Description
 ### Who is our target audience?
 Our project is targeted towards anyone who relies on recipes to cook—whether they are cooking enthusiasts, individuals trying to cut back on dining out, or busy people who often forget what ingredients they have on hand. We set out to build an application that helps users keep track of the items in their pantry and discover recipes they can make with those ingredients. Sometimes, deciding what to eat can be time-consuming and stressful, particularly for students or working professionals with busy schedules. Our app simplifies this decision-making process, making it easier to maintain consistent and healthy eating habits.
