@@ -10,17 +10,6 @@ async function loadCookbooks() {
     try {
       const cookbooks = await fetchJSON('/api/cookbook'); 
 
-      let currentUser = null;
-      try {
-        const authRes = await fetch('/api/auth/status');
-        if (authRes.ok) {
-          const authData = await authRes.json();
-          currentUser = authData.username?.toLowerCase(); // Normalize email case
-        }
-      } catch (authErr) {
-        console.error('Auth check failed:', authErr);
-      }
-
       function getCookbookIdFromURL() {
         const params = new URLSearchParams(window.location.search);
         return params.get('id');
@@ -37,7 +26,6 @@ async function loadCookbooks() {
         try {
             const response = await fetch(`/api/cookbook`);
             const cookbook = await response.json();
-            const cookbookOwnerId = cookbook.cookbookOwner
     
             document.getElementById("cookbook-title").innerText = cookbook.title
             document.getElementById("cookbook-description").innerText = cookbook.description || ""
@@ -60,11 +48,6 @@ async function loadCookbooks() {
   
       container.innerHTML = cookbooks.map(cookbook => {
         const isPrivate = (cookbook.cookbookPrivacy || "") === "private";
-        const isOwner = cookbook.cookbookOwner?.toLowerCase() === currentUser;
-
-        if (isPrivate && !isOwner) {
-          return '';
-        }
         
         return `
           <a href="cookbook.html?id=${encodeURIComponent(cookbook._id)}" class="cookbook-card">

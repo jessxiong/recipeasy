@@ -110,6 +110,11 @@ async function loadRecipes(filters = {}) {
 
   let recipesJson = await fetchJSON(url);
 
+  if (!recipesJson.length) {
+    document.getElementById("recipe-cards").innerText = "No recipes found.";
+    return;
+      }
+
   let recipesHtml = recipesJson.map((recipeInfo) => {
     const isPrivate = recipeInfo.recipePrivacy === "private";
     return `

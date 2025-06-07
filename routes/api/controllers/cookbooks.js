@@ -10,19 +10,22 @@ GET /
 */
 router.get("/", async (req, res) => {
   try {
-    const query = { cookbookPrivacy: "public" };
+
+    let cookbookFilter = {};
     
     // if user is logged in, also get their private cookbooks
     if (req.session.isAuthenticated) {
-      query.$or = [
+      cookbookFilter.$or = [
         { cookbookPrivacy: "public" },
         { 
           cookbookPrivacy: "private",
           cookbookOwner: req.session.account.username 
         }
       ];
+    } else {
+      cookbookFilter.cookbookPrivacy = "public";
     }
-    const allCookbooks = await models.Cookbook.find(query);
+    const allCookbooks = await models.Cookbook.find(cookbookFilter);
 
     //await models.Cookbook.find({cookbookPrivacy: "public"}).select("title lists") - less info displayed?
     // console.log(`Success retrieval of all public cookbooks: ${allCookbooks}`)

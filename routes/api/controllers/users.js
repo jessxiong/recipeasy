@@ -32,7 +32,7 @@ GET user
     * function: retrives metadata from mongodb about requested user 
     * returns: json of user info or error 
 */
-router.get('2/', async (req, res) => {
+router.get('/', async (req, res) => {
     try{
         if(!req.session.isAuthenticated){ 
             return res.status(401).json({ status: "error", error: "not logged in" })
