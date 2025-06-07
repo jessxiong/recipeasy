@@ -18,7 +18,7 @@ async function saveUserInfo(){
     try {
         const urlParams = new URLSearchParams(window.location.search);
         const username = urlParams.get('user');
-        if(username==myIdentity){
+        if(username==userInfo){
             document.getElementById("username-span").innerText= `You (${username})`;
             document.getElementById("user_info_new_div").classList.remove("d-none");
             
@@ -63,7 +63,7 @@ loadUserInfo
     try{
         const urlParams = new URLSearchParams(window.location.search);
         const username = urlParams.get('user');
-        if(username==myIdentity){
+        if(username==userInfo){
             document.getElementById("username-span").innerText= `You (${username})`;
             document.getElementById("user_info_new_div").classList.remove("d-none");
             
