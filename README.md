@@ -80,6 +80,14 @@ User
 - username (string)
 - userDescription (string)
 
+Comments
+- user (userID)
+- username (string)
+- recipe (recipeID)
+- text (string)
+- rating (int)
+- createdAt (date)
+
 Cookbooks
 - cookbookID (int)
 - cookbookOwner (string)
