@@ -48,7 +48,11 @@ We envision an application that acts as both a practical tool and a source of cu
 ### REST API Endpoints
 GET /recipes returns all recipes in database
 
-GET /recipes/ingredient returns recipes given a specific ingredient
+GET /recipes/ingredients returns recipes filtering for a specific ingredient
+
+GET /recipes/allergens returns recipes filtering out a specific allergen
+
+GET /recipes/privacy returns recipes filtering for privacy
 
 GET /recipes/recipeid returns a specific recipe
 
@@ -60,14 +64,9 @@ GET /cookbook/userid returns all cookbooks a user has created
 
 POST /cookbook/userid/add adds a new cookbook to a user’s account
 
-PATCH /cookbook/userid/description updates information about the cookbook’s description
-
-
 GET /user/login  Allows users to log into their account.
 
-
 POST /user/register  Allows users to register for an account.
-
 
 GET /user/profile returns Users profile page and information
 
@@ -79,37 +78,26 @@ User
 - userID (int)
 - username (string)
 - userDescription (string)
-- ingredients (array of key-value pairs)
-  - ingredient: count
-- favorites (array of recipeID)
-- allergens (array of strings)
 
 Cookbooks
-- userID (int)
-- username (string)
+- cookbookID (int)
+- cookbookOwner (string)
 - title (string)
 - description (string)
 - cookbookPrivacy (string with two potential values: public, private)
-- lists (array of dictionaries/objects)
-  - listTitle: string
-  - listPrivacy: (string with two potential values: public, private)
-  - recipes: (array of recipeID)
+- cookbookRecipes (array of recipeID)
 
 Recipes
 - recipeID (int)
 - recipeName (string)
 - recipeDescription (string)
+- recipeIngredients (array of strings)
 - recipeOwner (string)
 - recipePrivacy (string with two potential values: public, private)
-- recipeServings (int)
-- recipeIngredients (array of key-value pairs)
-  - ingredient: count
 - recipeInstructions (string)
-- allergens (array of strings)
-- views (int)
-- likes (int)
-- comments (array of strings)
-- picture (string)
+- recipeAllergens (array of strings)
+
+**Future Implementation:**
 
 Ingredients
 - userID (int)
