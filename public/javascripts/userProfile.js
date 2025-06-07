@@ -9,6 +9,8 @@ const userPopup = document.getElementById('userPopup');
 document.getElementById('updateUserInfo').onclick = () => userPopup.style.display = 'flex';
 document.querySelector('.close-btn2').onclick = () => userPopup.style.display = 'none';
 
+
+
 /*
 saveUserInfo
     * function: takes user input and saves/updates info to corresponding User Object
