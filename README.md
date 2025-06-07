@@ -25,6 +25,7 @@ We envision an application that acts as both a practical tool and a source of cu
 ### Data Flow Diagram
 
 ![Data Flow Diagram](https://github.com/user-attachments/assets/f4d67039-0b31-44b8-9ad1-b54da2b035b9)
+Also added Comments database later on.
 
 ### User Stories 
 | Priority | User  |Description |Technical Implementation
